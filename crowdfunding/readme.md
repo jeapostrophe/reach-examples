@@ -4,7 +4,7 @@ This Reach DApp is not finished yet because I have not been able to use Reach to
 
 1. Fundraiser provides a fundraising goal (e.g. 10 Algo) and a duration in blocks representing how long the contract is valid.
 1. Fundraiser deploys the contract.
-1. Contributors pay contributions (e.g. 2 Algo) toward the goal. 
+1. Contributors pay varying contributions toward the goal. 
 1. Each contributor pays a contribution, and then stops watching the contract. 
 1. Contribution amounts can vary with each visit (same or different contributor). 
 
