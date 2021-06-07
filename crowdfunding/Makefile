@@ -27,10 +27,10 @@ down:
 run-live:
 	docker-compose run --rm reach-app-tut-8-ETH-live
 
-.PHONY: run-alice
-run-alice:
-	docker-compose run --rm alice
+.PHONY: run-fundraiser
+run-fundraiser:
+	docker-compose run -e role=Fundraiser -e type=devnet --rm fundraiser
 
-.PHONY: run-bob
-run-bob:
-	docker-compose run --rm bob
+.PHONY: run-contributor
+run-contributor:
+	docker-compose run -e role=Contributor -e type=devnet --rm contributor 
