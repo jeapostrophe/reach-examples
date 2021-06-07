@@ -20,7 +20,7 @@ const ContributorAPI = {
   ...CommonAPI,
   reportAddress: Fun([Address], Null),
   getContributionAmount: Fun([], UInt),
-  doContribution: Fun([], Bool),
+  getContributionDirective: Fun([], Bool),
   reportContribution: Fun([Address, UInt], Null),
   reportContractExit: Fun([], Null)
 };
@@ -49,19 +49,18 @@ export const main = Reach.App(() => {
     .invariant(balance() == sum)
     .while(inLoop && balance() < p.goal)
     .case(C, (() => {
-      interact.reportMsg(this, 'PUBLISH_EXPR');
-      if (declassify(interact.doContribution())) {
-        //interact.reportYouAreDone();
+      if (declassify(interact.getContributionDirective())) {
         return { when: true, msg: declassify(interact.getContributionAmount()) }
       } else {
-        return { when: false, msg: 1 }
+        return { when: false, msg: 0 }
       }
     }),
       ((contribution) => contribution),
       ((contribution) => {
+        const winner = this;
         C.only(() => {
-          interact.reportContribution(this, contribution);
-          interact.reportContractBalance(this, balance());
+          interact.reportContribution(winner, contribution);
+          interact.reportContractBalance(winner, balance());
         });
         return [true, balance()];
       })
