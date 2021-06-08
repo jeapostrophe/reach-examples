@@ -148,6 +148,8 @@ What is the contract information? {"ApplicationID":46,"creationRound":8393,"Depl
 
 ### Contributor 3
 
+This appears to be wrong. Compare to Ethereum Contributor 3.
+
 ```
 % make run-contributor
 Your role is Contributor.
@@ -160,6 +162,8 @@ What is the contract information? {"ApplicationID":46,"creationRound":8393,"Depl
 
 ### Contributor 4
 
+This appears to be wrong. Compare to Ethereum Contributor 4.
+
 ```
 % make run-contributor
 Your role is Contributor.
@@ -171,6 +175,8 @@ What is the contract information? {"ApplicationID":46,"creationRound":8393,"Depl
 ```
 
 ### Contributor 5
+
+This appears to be wrong. Compare to Ethereum Contributor 5.
 
 ```
 % make run-contributor
