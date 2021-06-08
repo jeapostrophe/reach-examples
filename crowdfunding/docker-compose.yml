@@ -84,8 +84,8 @@ services:
       - CFX_NETWORK_ID
   reach-app-crowdfunding-: *default-app
   reach-app-crowdfunding: *default-app
-  player: &player
+  role: &role
     <<: *default-app
     stdin_open: true
-  fundraiser: *player
-  contributor: *player
+  fundraiser: *role
+  contributor: *role

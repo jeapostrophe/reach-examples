@@ -1,33 +1,26 @@
 'reach 0.1';
 
-const CommonAPI = {
-  reportMsg: Fun([Address, Bytes(128)], Null),
-  reportProjectName: Fun([Bytes(64)], Null),
-  reportContractBalance: Fun([Address, UInt], Null),
-  reportTimeout: Fun([], Null),
-  reportTransfer: Fun([Address, UInt], Null),
-  reportYouAreDone: Fun([], Null)
-};
-
-const FundraiserAPI = {
-  ...CommonAPI,
+const fundraiserApi = {
   projectName: Bytes(64),
   projectGoal: UInt,
-  projectDuration: UInt
+  projectDuration: UInt,
+  cb_done: Fun([], Null)
 };
 
-const ContributorAPI = {
-  ...CommonAPI,
-  reportAddress: Fun([Address], Null),
-  getContributionAmount: Fun([], UInt),
-  getContributionDirective: Fun([], Bool),
-  reportContribution: Fun([Address, UInt], Null),
-  reportContractExit: Fun([], Null)
+const contributorApi = {
+  contribution: UInt,
+  contribute: Fun([], Bool),
+  cb_address: Fun([Address], Null),
+  cb_contributed: Fun([Address, UInt, UInt, UInt], Null),
+  cb_exiting: Fun([], Null),
+  cb_expired: Fun([], Null),
+  cb_projectName: Fun([Bytes(64)], Null),
+  cb_transferred: Fun([UInt, Address, UInt], Null)
 };
 
 export const main = Reach.App(() => {
-  const F = Participant('Fundraiser', FundraiserAPI);
-  const C = ParticipantClass('Contributor', ContributorAPI);
+  const F = Participant('Fundraiser', fundraiserApi);
+  const C = ParticipantClass('Contributor', contributorApi);
   deploy();
 
   F.only(() => {
@@ -39,18 +32,14 @@ export const main = Reach.App(() => {
   });
 
   F.publish(p);
-  F.interact.reportYouAreDone();
-
-  C.only(() => {
-    interact.reportAddress(this);
-  });
+  F.interact.cb_done();
 
   const [inLoop, sum] = parallelReduce([true, 0])
     .invariant(balance() == sum)
     .while(inLoop && balance() < p.goal)
     .case(C, (() => {
-      if (declassify(interact.getContributionDirective())) {
-        return { when: true, msg: declassify(interact.getContributionAmount()) }
+      if (declassify(interact.contribute())) {
+        return { when: true, msg: declassify(interact.contribution) }
       } else {
         return { when: false, msg: 0 }
       }
@@ -59,25 +48,21 @@ export const main = Reach.App(() => {
       ((contribution) => {
         const winner = this;
         C.only(() => {
-          interact.reportContribution(winner, contribution);
-          interact.reportContractBalance(winner, balance());
+          interact.cb_contributed(winner, contribution, balance(), lastConsensusTime());
         });
         return [true, balance()];
       })
     )
     .timeout(p.duration, () => {
-      C.interact.reportTimeout();
+      C.interact.cb_expired();
       Anybody.publish();
       return [false, sum];
     });
 
-  C.interact.reportTransfer(F, balance());
+  const contributions = balance();
   transfer(balance()).to(F);
-  C.only(() => {
-    interact.reportContractBalance(this, balance());
-  });
   commit();
-  C.interact.reportContractExit();
-
+  C.interact.cb_transferred(contributions, F, balance());
+  C.interact.cb_exiting();
   exit();
 });

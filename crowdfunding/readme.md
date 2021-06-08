@@ -1,85 +1,179 @@
 # Crowdfunding
 
-This Reach DApp is not finished yet. Here is the use case:
-
-1. Fundraiser provides a fundraising goal (e.g. 10 Algo) and a duration in blocks representing how long the contract is valid.
-1. Fundraiser deploys the contract. 
-1. Contributors contribute varying amounts toward the goal until `sum >= goal` or `blocks added > duration`.
+This DApp enables a Fundraiser to deploy a smart contract that runs for a period of time (e.g. number of blocks) on a consensus network (e.g. Algorand, Ethereum) with a fundraising goal in cryptocurrency standard units (e.g. ALGO, ETH), and it enables Contributers to transfer coins to the contract until the goal is met or the period of time expires. If the goal is met before the contract expires, the contract transfers the contribution sum to the Fundraiser. Otherwise, the contract remits the contributions to the contributors.
 
 # Tests
 
-I test this DApp using four terminals, running each in order:
+You can test this DApp using several terminals, running each in order:
 
 1. `make run-fundraiser`
 1. `make run-contributor`
 1. `make run-contributor`
 1. `make run-contributor`
+1. `make run-contributor`
+1. `make run-contributor`
 
-## Fundraiser
+The `*` next to an abbreviated address (e.g. `0x433*`) means the address belongs to the Contributor running the DApp.
+
+## Ethereum
+
+### Fundraiser
+
+```
+% make run-fundraiser
+Your role is Fundraiser.
+Your network type is devnet.
+Your account balance is 1000 ETH.
+Your project goal is 20 ETH.
+Your contract deployment time is 52642
+Your contract info is {"address":"0x123","creation_block":52642,"transactionHash":"0xabc"}
+You are done.
+```
+
+### Contributor 1
+
+```
+% make run-contributor
+Your role is Contributor.
+Your network type is devnet.
+Your account balance is 1000 ETH.
+What is your contribution in ETH? 1
+What is the contract information? {"address":"0x123","creation_block":52642,"transactionHash":"0xabc"}
+0x433* contributed 1 ETH at 52643. Contract balance is 1 ETH.
+```
+
+### Contributor 2
+
+```
+% make run-contributor
+Your role is Contributor.
+Your network type is devnet.
+Your account balance is 1000 ETH.
+What is your contribution in ETH? 3
+What is the contract information? {"address":"0x123","creation_block":52642,"transactionHash":"0xabc"}
+0x433  contributed 1 ETH at 52643. Contract balance is 1 ETH.
+0xe00* contributed 3 ETH at 52645. Contract balance is 4 ETH.
+```
+
+### Contributor 3
+
+```
+% make run-contributor
+Your role is Contributor.
+Your network type is devnet.
+Your account balance is 1000 ETH.
+What is your contribution in ETH? 5
+What is the contract information? {"address":"0x123","creation_block":52642,"transactionHash":"0xabc"}
+0x433  contributed 1 ETH at 52643. Contract balance is 1 ETH.
+0xe00  contributed 3 ETH at 52645. Contract balance is 4 ETH.
+0xc7e* contributed 5 ETH at 52875. Contract balance is 9 ETH.
+```
+
+### Contributor 4
+
+```
+% make run-contributor
+Your role is Contributor.
+Your network type is devnet.
+Your account balance is 1000 ETH.
+What is your contribution in ETH? 7
+What is the contract information? {"address":"0x123","creation_block":52642,"transactionHash":"0xabc"}
+0x433  contributed 1 ETH at 52643. Contract balance is 1 ETH.
+0xe00  contributed 3 ETH at 52645. Contract balance is 4 ETH.
+0xc7e  contributed 5 ETH at 52875. Contract balance is 9 ETH.
+0x934* contributed 7 ETH at 53285. Contract balance is 16 ETH.
+```
+
+### Contributor 5
+
+```
+% make run-contributor
+Your role is Contributor.
+Your network type is devnet.
+Your account balance is 1000 ETH.
+What is your contribution in ETH? 9
+What is the contract information? {"address":"0x123","creation_block":52642,"transactionHash":"0xabc"}
+0x433  contributed 1 ETH at 52643. Contract balance is 1 ETH.
+0xe00  contributed 3 ETH at 52645. Contract balance is 4 ETH.
+0xc7e  contributed 5 ETH at 52875. Contract balance is 9 ETH.
+0x934  contributed 7 ETH at 53285. Contract balance is 16 ETH.
+0x4Bd* contributed 9 ETH at 53794. Contract balance is 25 ETH.
+Transferred 25 ETH to 0xbBf. Contract balance is 0 ETH.
+The contract is exiting.
+```
+
+## Algorand
+
+### Fundraiser
 
 ```
 % make run-fundraiser
 Your role is Fundraiser.
 Your network type is devnet.
 Your account balance is 1000 ALGO.
-Your project goal is 10 ALGO.
-You are deploying the contract.
-Your contract info is {"ApplicationID":2,"creationRound":8,"Deployer":"W2YDQLYAEXR6THWL6Q2QLLSSK3FJYG336NWIXYKTFH4XPB3UBPDFSRIWLI"}
-Fundraiser, you are done.
+Your project goal is 20000000 ALGO.
+Your contract deployment time is 8393
+Your contract info is {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
+You are done.
 ```
 
-## Contributor 1
-
-```
- % make run-contributor
-Your role is Contributor.
-Your network type is devnet.
-Your account balance is 1000 ALGO.
-What is your contribution in ALGO?
-1
-What is the contract information?
-{"ApplicationID":2,"creationRound":8,"Deployer":"W2YDQLYAEXR6THWL6Q2QLLSSK3FJYG336NWIXYKTFH4XPB3UBPDFSRIWLI"}
-Your address starts with 0x199.
-0x199 (YOU) contributed 1 ALGO to contract.
-0x199 (YOU) reported contract balance of 1 ALGO.
-```
-
-## Contributor 2
+### Contributor 1
 
 ```
 % make run-contributor
 Your role is Contributor.
 Your network type is devnet.
 Your account balance is 1000 ALGO.
-What is your contribution in ALGO?
-2
-What is the contract information?
-{"ApplicationID":2,"creationRound":8,"Deployer":"W2YDQLYAEXR6THWL6Q2QLLSSK3FJYG336NWIXYKTFH4XPB3UBPDFSRIWLI"}
-Your address starts with 0xef4.
-0x199 contributed 1 ALGO to contract.
-0x199 reported contract balance of 1 ALGO.
-0xef4 (YOU) contributed 2 ALGO to contract.
-0xef4 (YOU) reported contract balance of 3 ALGO.
+What is your contribution in ALGO? 1
+What is the contract information? {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
+0x4cc* contributed 1 ALGO at 8396. Contract balance is 1 ALGO.
 ```
 
-## Contributor 3
+### Contributor 2
 
 ```
 % make run-contributor
 Your role is Contributor.
 Your network type is devnet.
 Your account balance is 1000 ALGO.
-What is your contribution in ALGO?
-3
-What is the contract information?
-{"ApplicationID":2,"creationRound":8,"Deployer":"W2YDQLYAEXR6THWL6Q2QLLSSK3FJYG336NWIXYKTFH4XPB3UBPDFSRIWLI"}
-Your address starts with 0x0ef.
-0xef4 contributed 2 ALGO to contract.
-0xef4 reported contract balance of 2 ALGO.
+What is your contribution in ALGO? 3
+What is the contract information? {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
+0x4cc  contributed 1 ALGO at 8396. Contract balance is 1 ALGO.
+0x5e3* contributed 3 ALGO at 8407. Contract balance is 4 ALGO.
 ```
 
-# Observations
+### Contributor 3
 
-1. Fundraiser, Contributor 1, and Contributor 2 run as expected.
-1. Contributor 3 does not go back to the beginning. It only goes back to the previous contributor.
-1. Contributor 3 never contributes. 
+```
+% make run-contributor
+Your role is Contributor.
+Your network type is devnet.
+Your account balance is 1000 ALGO.
+What is your contribution in ALGO? 5
+What is the contract information? {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
+0x5e3  contributed 3 ALGO at 8396. Contract balance is 3 ALGO.
+```
+
+### Contributor 4
+
+```
+% make run-contributor
+Your role is Contributor.
+Your network type is devnet.
+Your account balance is 1000 ALGO.
+What is your contribution in ALGO? 7
+What is the contract information? {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
+0x5e3  contributed 3 ALGO at 8396. Contract balance is 3 ALGO.
+```
+
+### Contributor 5
+
+```
+% make run-contributor
+Your role is Contributor.
+Your network type is devnet.
+Your account balance is 1000 ALGO.
+What is your contribution in ALGO? 9
+What is the contract information? {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
+0x5e3  contributed 3 ALGO at 8396. Contract balance is 3 ALGO.
+```

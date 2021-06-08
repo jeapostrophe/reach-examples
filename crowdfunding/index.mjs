@@ -1,18 +1,23 @@
-import * as stdlib from '@reach-sh/stdlib/ALGO.mjs';
+import { loadStdlib } from '@reach-sh/stdlib';
 import * as backend from './build/index.main.mjs';
 import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
 
 (async () => {
-  const fmt = (x) => stdlib.formatCurrency(x, 4);
-  const getBalance = async (acc) => fmt(await stdlib.balanceOf(acc));
+  const stdlib = await loadStdlib();
+  const fmt = (au) => stdlib.formatCurrency(au, 4);
+  const getStandardUnitBalance = async (acc) => fmt(await stdlib.balanceOf(acc));
   const su = stdlib.standardUnit;
-
   const role = process.env.role
   const isFundraiser = role === 'Fundraiser' ? true : false;
-  console.log(`Your role is ${role}.`)
-
   const devnet = process.env.type === 'devnet' ? true : false;
+  const abbrAddr = (addr) => addr.substr(0, 5);
+  const yourAddr = (addr, acc) => stdlib.addressEq(addr, acc.networkAccount) ? `${abbrAddr(addr)}*` : `${abbrAddr(addr)} `;
+  const ctcDeployTime = (info) => su == 'ALGO' ? info.creationRound : info.creation_block;
+
+  console.log(`Your role is ${role}.`)
   console.log(`Your network type is ${process.env.type}.`)
+
+  // account
 
   let acc = null;
   if (devnet) {
@@ -23,61 +28,50 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
     acc = await stdlib.newAccountFromMnemonic(mnemonic);
   }
 
-  const abbrAddr = (a) => a.substr(0, 5);
-  const yourAddr = (a) => stdlib.addressEq(a, acc.networkAccount) ? `${abbrAddr(a)} (YOU)` : abbrAddr(a);
+  console.log(`Your account balance is ${await getStandardUnitBalance(acc)} ${su}.`);
 
-  console.log(`Your account balance is ${await getBalance(acc)} ${su}.`);
-
-  const CommonAPI = (Who) => ({
-    reportMsg: (a, msg) => { console.log(`${yourAddr(a)} ${msg}`); },
-    reportProjectName: (name) => { console.log(`${Who} project name is ${name}.`); },
-    reportContractBalance: (a, bal) => { console.log(`${yourAddr(a)} reported contract balance of ${fmt(bal)} ${su}.`); },
-    reportTimeout: () => { console.log('Contract timed out.') },
-    reportTransfer: (a, amt) => { console.log(`Transfer of ${fmt(amt)} to ${abbrAddr(a)}.`); },
-    reportYouAreDone: () => { console.log(`${Who}, you are done.`); process.exit(0); }
-  });
+  // Fundraiser
 
   if (isFundraiser) {
-    const projectGoal = 10;
-    console.log(`Your project goal is ${projectGoal} ${su}.`);
-
-    let FundraiserAPI = {
-      ...CommonAPI(role),
+    let fundraiserApi = {
       projectName: 'Crowd Funding Project',
-      projectGoal: stdlib.parseCurrency(projectGoal),
-      projectDuration: 100
+      projectGoal: stdlib.parseCurrency(20),
+      projectDuration: 10000,
+      cb_done: () => { console.log(`You are done.`); process.exit(0); }
     };
 
-    console.log(`You are deploying the contract.`);
+    console.log(`Your project goal is ${fmt(fundraiserApi.projectGoal)} ${su}.`);
     let ctc = acc.deploy(backend);
     const info = await ctc.getInfo();
+    console.log(`Your contract deployment time is ${ctcDeployTime(info)}`);
     console.log(`Your contract info is ${JSON.stringify(info)}`);
-    await backend.Fundraiser(ctc, FundraiserAPI);
+    await backend.Fundraiser(ctc, fundraiserApi);
   }
 
-  else {
-    const contribution = await ask(`What is your contribution in ${su}?`, (x => x));
-    let contribute = true;
+  // Contributor
 
-    let ContributorAPI = {
-      ...CommonAPI(role),
-      reportAddress: (a) => { console.log(`Your address starts with ${abbrAddr(a)}.`); },
-      getContributionAmount: () => { return stdlib.parseCurrency(contribution); },
-      getContributionDirective: () => contribute,
-      reportContribution: (a, contribution) => {
-        console.log(`${yourAddr(a)} contributed ${fmt(contribution)} ${su} to contract.`)
-        if (stdlib.addressEq(a, acc.networkAccount)) {
-          contribute = false;
+  else {
+    let contributorApi = {
+      contribution: stdlib.parseCurrency(await ask(`What is your contribution in ${su}?`, (x => x))),
+      willContribute: true,
+      contribute: () => contributorApi.willContribute,
+      cb_address: (addr) => { console.log(`Your address starts with ${abbrAddr(addr)}.`); },
+      cb_contributed: (addr, contribution, balance, time) => {
+        console.log(`${yourAddr(addr, acc)} contributed ${fmt(contribution)} ${su} at ${time}. Contract balance is ${fmt(balance)} ${su}.`);
+        if (stdlib.addressEq(addr, acc.networkAccount)) {
+          contributorApi.willContribute = false;
         }
       },
-      reportContractExit: () => { console.log('The contract is exiting.') }
+      cb_exiting: () => { console.log('The contract is exiting.'); },
+      cb_expired: () => { console.log('Contract timed out.') },
+      cb_projectName: (name) => { console.log(`${Who} project name is ${name}.`); },
+      cb_transferred: (contributions, addr, finalBalance) => { console.log(`Transferred ${fmt(contributions)} ${su} to ${abbrAddr(addr)}. Contract balance is ${fmt(finalBalance)} ${su}.`); },
     };
 
     const info = await ask(`What is the contract information?`, JSON.parse);
     let ctc = acc.attach(backend, info);
-    await backend.Contributor(ctc, ContributorAPI);
+    await backend.Contributor(ctc, contributorApi);
   }
 
-  console.log();
   done();
 })();
