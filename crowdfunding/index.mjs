@@ -36,7 +36,7 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
     let fundraiserApi = {
       projectName: 'Crowd Funding Project',
       projectGoal: stdlib.parseCurrency(20),
-      projectDuration: 200,
+      contractDuration: 10000,
       cb_done: () => { console.log(`You are done.`); process.exit(0); }
     };
 

@@ -3,7 +3,7 @@
 const fundraiserApi = {
   projectName: Bytes(64),
   projectGoal: UInt,
-  projectDuration: UInt,
+  contractDuration: UInt,
   cb_done: Fun([], Null)
 };
 
@@ -28,7 +28,7 @@ export const main = Reach.App(() => {
     const p = {
       name: declassify(interact.projectName),
       goal: declassify(interact.projectGoal),
-      duration: declassify(interact.projectDuration)
+      duration: declassify(interact.contractDuration)
     }
   });
 
