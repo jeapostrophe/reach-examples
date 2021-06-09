@@ -37,7 +37,7 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
       projectName: 'Crowd Funding Project',
       projectGoal: stdlib.parseCurrency(20),
       contractDuration: 10000,
-      cb_done: () => { console.log(`You are done.`); process.exit(0); }
+      put_done: () => { console.log(`You are done.`); process.exit(0); }
     };
 
     console.log(`Your project goal is ${fmt(fundraiserApi.projectGoal)} ${su}.`);
@@ -54,19 +54,19 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
     let contributorApi = {
       contribution: stdlib.parseCurrency(await ask(`What is your contribution in ${su}?`, (x => x))),
       willContribute: true,
-      contribute: () => contributorApi.willContribute,
-      cb_address: (addr) => { console.log(`Your address starts with ${abbrAddr(addr)}.`); },
-      cb_balance: (balance) => {console.log(`Contract balance is ${fmt(balance)} ${su}.`);},
-      cb_contributed: (addr, contribution, balance, time) => {
+      get_contribute: () => contributorApi.willContribute,
+      put_address: (addr) => { console.log(`Your address starts with ${abbrAddr(addr)}.`); },
+      put_balance: (balance) => {console.log(`Contract balance is ${fmt(balance)} ${su}.`);},
+      put_contributed: (addr, contribution, balance, time) => {
         console.log(`${yourAddr(addr, acc)} contributed ${fmt(contribution)} ${su} at ${time}. Contract balance is ${fmt(balance)} ${su}.`);
         if (stdlib.addressEq(addr, acc.networkAccount)) {
           contributorApi.willContribute = false;
         }
       },
-      cb_exiting: () => { console.log('The contract is exiting.'); },
-      cb_timeout: () => { console.log('Contract timed out.') },
-      cb_projectName: (name) => { console.log(`${Who} project name is ${name}.`); },
-      cb_transferred: (contributions, addr) => { console.log(`Transferred ${fmt(contributions)} ${su} to ${abbrAddr(addr)}.`); },
+      put_exiting: () => { console.log('The contract is exiting.'); },
+      put_timeout: () => { console.log('Contract timed out.') },
+      put_projectName: (name) => { console.log(`${Who} project name is ${name}.`); },
+      put_transferred: (contributions, addr) => { console.log(`Transferred ${fmt(contributions)} ${su} to ${abbrAddr(addr)}.`); },
     };
 
     const info = await ask(`What is the contract information?`, JSON.parse);

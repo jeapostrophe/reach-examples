@@ -4,19 +4,19 @@ const fundraiserApi = {
   projectName: Bytes(64),
   projectGoal: UInt,
   contractDuration: UInt,
-  cb_done: Fun([], Null)
+  put_done: Fun([], Null)
 };
 
 const contributorApi = {
   contribution: UInt,
-  contribute: Fun([], Bool),
-  cb_address: Fun([Address], Null),
-  cb_balance: Fun([UInt], Null),
-  cb_contributed: Fun([Address, UInt, UInt, UInt], Null),
-  cb_exiting: Fun([], Null),
-  cb_timeout: Fun([], Null),
-  cb_projectName: Fun([Bytes(64)], Null),
-  cb_transferred: Fun([UInt, Address], Null)
+  get_contribute: Fun([], Bool),
+  put_address: Fun([Address], Null),
+  put_balance: Fun([UInt], Null),
+  put_contributed: Fun([Address, UInt, UInt, UInt], Null),
+  put_exiting: Fun([], Null),
+  put_timeout: Fun([], Null),
+  put_projectName: Fun([Bytes(64)], Null),
+  put_transferred: Fun([UInt, Address], Null)
 };
 
 export const main = Reach.App(() => {
@@ -33,13 +33,13 @@ export const main = Reach.App(() => {
   });
 
   F.publish(p);
-  F.interact.cb_done();
+  F.interact.put_done();
 
   const [inLoop, sum, timeout] = parallelReduce([true, 0, false])
     .invariant(balance() == sum)
     .while(inLoop && balance() < p.goal)
     .case(C, (() => {
-      if (declassify(interact.contribute())) {
+      if (declassify(interact.get_contribute())) {
         return { when: true, msg: declassify(interact.contribution) }
       } else {
         return { when: false, msg: 0 }
@@ -49,7 +49,7 @@ export const main = Reach.App(() => {
       ((contribution) => {
         const winner = this;
         C.only(() => {
-          interact.cb_contributed(winner, contribution, balance(), lastConsensusTime());
+          interact.put_contributed(winner, contribution, balance(), lastConsensusTime());
         });
         return [true, balance(), false];
       })
@@ -60,21 +60,21 @@ export const main = Reach.App(() => {
     });
 
   if (timeout) {
-    C.interact.cb_timeout();
+    C.interact.put_timeout();
 
     // Need to transfer contributions back to contributors. Don't know how yet. Until then, ...
     const contributions = balance();
     transfer(balance()).to(F);
-    C.interact.cb_transferred(contributions, F);
+    C.interact.put_transferred(contributions, F);
 
   } else {
     const contributions = balance();
     transfer(balance()).to(F);
-    C.interact.cb_transferred(contributions, F);
+    C.interact.put_transferred(contributions, F);
   }
 
   commit();
-  C.interact.cb_balance(balance());
-  C.interact.cb_exiting();
+  C.interact.put_balance(balance());
+  C.interact.put_exiting();
   exit();
 });

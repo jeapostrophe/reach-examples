@@ -4,8 +4,8 @@ This DApp enables a Fundraiser to deploy a smart contract that runs for a period
 
 # Current Issues
 
-1. The dapp does not run correctly on Algorand. Contributors 1 and 2 appear to run correctly. Subsequent contributors don't. See the Tests below.
-1. I need to remit contributions to contributers if timeout == true && balance() < goal.
+1. `parallelReduce` does not appear to run correctly on Algorand. Contributors 1 and 2 appear to run correctly. Subsequent contributors don't. See the Tests below.
+1. I need to add the ability to remit contributions to contributers if `(timeout == true && balance() < goal)`. Jay has suggested I use linear state to save individual contributions so that remit them individually.
 1. I need to allow contributors to contribute more than once.
 
 # Tests
