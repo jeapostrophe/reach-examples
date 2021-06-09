@@ -187,3 +187,25 @@ What is your contribution in ALGO? 9
 What is the contract information? {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
 0x5e3  contributed 3 ALGO at 8396. Contract balance is 3 ALGO.
 ```
+
+# Timeouts
+
+Eventually, for a timeout, the DApp will remit all contributions to contributors. However, because I don't know how to do this yet, currently, the DApp transfers the sub-goal balance to the Fundraiser. 
+
+Below is the output from a Contributor monitoring a contract timeout. Note <span style="color:red;">Contract timed out.</span>
+
+```
+% make run-contributor
+Your role is Contributor.
+Your network type is devnet.
+Your account balance is 1000 ETH.
+What is your contribution in ETH? 5
+What is the contract information? {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
+0xC30  contributed 3 ETH at 55708. Contract balance is 3 ETH.
+0x5Fc  contributed 4 ETH at 55712. Contract balance is 7 ETH.
+0xcD5* contributed 5 ETH at 55766. Contract balance is 12 ETH.
+Contract timed out.
+Transferred 12 ETH to 0xF44.
+Contract balance is 0 ETH.
+The contract is exiting.
+```

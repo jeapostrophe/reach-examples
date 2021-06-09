@@ -36,7 +36,7 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
     let fundraiserApi = {
       projectName: 'Crowd Funding Project',
       projectGoal: stdlib.parseCurrency(20),
-      projectDuration: 10000,
+      projectDuration: 200,
       cb_done: () => { console.log(`You are done.`); process.exit(0); }
     };
 
@@ -56,6 +56,7 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
       willContribute: true,
       contribute: () => contributorApi.willContribute,
       cb_address: (addr) => { console.log(`Your address starts with ${abbrAddr(addr)}.`); },
+      cb_balance: (balance) => {console.log(`Contract balance is ${fmt(balance)} ${su}.`);},
       cb_contributed: (addr, contribution, balance, time) => {
         console.log(`${yourAddr(addr, acc)} contributed ${fmt(contribution)} ${su} at ${time}. Contract balance is ${fmt(balance)} ${su}.`);
         if (stdlib.addressEq(addr, acc.networkAccount)) {
@@ -65,7 +66,7 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
       cb_exiting: () => { console.log('The contract is exiting.'); },
       cb_timeout: () => { console.log('Contract timed out.') },
       cb_projectName: (name) => { console.log(`${Who} project name is ${name}.`); },
-      cb_transferred: (contributions, addr, finalBalance) => { console.log(`Transferred ${fmt(contributions)} ${su} to ${abbrAddr(addr)}. Contract balance is ${fmt(finalBalance)} ${su}.`); },
+      cb_transferred: (contributions, addr) => { console.log(`Transferred ${fmt(contributions)} ${su} to ${abbrAddr(addr)}.`); },
     };
 
     const info = await ask(`What is the contract information?`, JSON.parse);
