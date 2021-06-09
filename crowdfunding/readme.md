@@ -192,7 +192,7 @@ What is the contract information? {"ApplicationID":46,"creationRound":8393,"Depl
 
 Eventually, for a timeout, the DApp will remit all contributions to contributors. However, because I don't know how to do this yet, currently, the DApp transfers the sub-goal balance to the Fundraiser. 
 
-Below is the output from a Contributor monitoring a contract timeout. Note <span style="color:red;">Contract timed out.</span>
+Below is the output from a Contributor monitoring a contract timeout. Note the line *Contract timed out*.
 
 ```
 % make run-contributor
