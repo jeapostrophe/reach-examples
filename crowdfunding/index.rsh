@@ -13,7 +13,7 @@ const contributorApi = {
   cb_address: Fun([Address], Null),
   cb_contributed: Fun([Address, UInt, UInt, UInt], Null),
   cb_exiting: Fun([], Null),
-  cb_expired: Fun([], Null),
+  cb_timeout: Fun([], Null),
   cb_projectName: Fun([Bytes(64)], Null),
   cb_transferred: Fun([UInt, Address, UInt], Null)
 };
@@ -54,7 +54,7 @@ export const main = Reach.App(() => {
       })
     )
     .timeout(p.duration, () => {
-      C.interact.cb_expired();
+      C.interact.cb_timeout();
       Anybody.publish();
       return [false, sum];
     });
