@@ -190,9 +190,7 @@ What is the contract information? {"ApplicationID":46,"creationRound":8393,"Depl
 
 # Timeouts
 
-The contract duration is controlled by the `contractDuration` property of the `FundraiserApi` interact object. Eventually, for a timeout, the DApp will remit all contributions to contributors. However, because I don't know how to do this yet, currently the DApp transfers the sub-goal balance to the Fundraiser. 
-
-Below is the output from a Contributor monitoring a contract timeout. Note the line *Contract timed out*.
+The contract duration is controlled by the `contractDuration` property of the `FundraiserApi` interact object. Below is the output from a Contributor monitoring a contract timeout. Note the line *Contract timed out*.
 
 ```
 % make run-contributor
@@ -209,3 +207,5 @@ Transferred 12 ETH to 0xF44.
 Contract balance is 0 ETH.
 The contract is exiting.
 ```
+
+Eventually, for a timeout, the DApp will remit all contributions to contributors. However, because I don't know how to do this yet, currently the DApp transfers the sub-goal balance to the Fundraiser. 
