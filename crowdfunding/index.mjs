@@ -63,7 +63,7 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
         }
       },
       cb_exiting: () => { console.log('The contract is exiting.'); },
-      cb_expired: () => { console.log('Contract timed out.') },
+      cb_timeout: () => { console.log('Contract timed out.') },
       cb_projectName: (name) => { console.log(`${Who} project name is ${name}.`); },
       cb_transferred: (contributions, addr, finalBalance) => { console.log(`Transferred ${fmt(contributions)} ${su} to ${abbrAddr(addr)}. Contract balance is ${fmt(finalBalance)} ${su}.`); },
     };
