@@ -60,11 +60,9 @@ export const main = Reach.App(() => {
     });
 
   if (timeout) {
-    
-    // Loop to transfer contributions back to contributors. Need to learn how.
     C.interact.cb_timeout();
 
-    // This is temporary:
+    // Need to transfer contributions back to contributors. Don't know how yet. Until then, ...
     const contributions = balance();
     transfer(balance()).to(F);
     C.interact.cb_transferred(contributions, F);
