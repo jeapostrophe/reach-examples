@@ -2,9 +2,11 @@
 
 This DApp enables a Fundraiser to deploy a smart contract that runs for a period of time (e.g. number of blocks) on a consensus network (e.g. Algorand, Ethereum) with a fundraising goal in cryptocurrency standard units (e.g. ALGO, ETH), and it enables Contributers to transfer coins to the contract until the goal is met or the period of time expires. If the goal is met before the contract expires, the contract transfers the contribution sum to the Fundraiser. Otherwise, the contract remits the contributions to the contributors.
 
-# Issues
+# Current Issues
 
-This DApp runs correctly on Ethereum where each contributer scans the history of contributions (for the contract) before contributing. The DApp does not run correctly on Algorand. Contributors 1 and 2 appear to run correctly. Subsequent contributors don't. See the Tests below.
+1. The dapp does not run correctly on Algorand. Contributors 1 and 2 appear to run correctly. Subsequent contributors don't. See the Tests below.
+1. I need to remit contributions to contributers if timeout == true && balance() < goal.
+1. I need to allow contributors to contribute more than once.
 
 # Tests
 
