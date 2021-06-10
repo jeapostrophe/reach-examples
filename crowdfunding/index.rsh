@@ -4,7 +4,6 @@ const fundraiserApi = {
   projectName: Bytes(64),
   fundraisingGoal: UInt,
   contractDuration: UInt,
-  reportContributed: Fun([Address, UInt, UInt, UInt], Null),
   reportDone: Fun([], Null)
 };
 
@@ -13,12 +12,14 @@ const contributorApi = {
   getWillContribute: Fun([], Bool),
   reportAddress: Fun([Address], Null),
   reportBalance: Fun([UInt], Null),
-  reportContributed: Fun([Address, UInt, UInt, UInt], Null),
+  reportContribution: Fun([Address, UInt, UInt, UInt], Null),
   reportExit: Fun([], Null),
   reportProjectName: Fun([Bytes(64)], Null),
   reportTimeout: Fun([], Null),
   reportTransfer: Fun([UInt, Address], Null)
 };
+
+const myFromMaybe = (amt) => fromMaybe(amt, (() => 0), ((x) => x));
 
 export const main = Reach.App(() => {
   const F = Participant('Fundraiser', fundraiserApi);
@@ -36,6 +37,7 @@ export const main = Reach.App(() => {
   F.publish(p);
   F.interact.reportDone();
 
+  const ctMap = new Map(UInt);
   const [inLoop, sum, timeout] = parallelReduce([true, 0, false])
     .invariant(balance() == sum)
     .while(inLoop && balance() < p.goal)
@@ -49,8 +51,9 @@ export const main = Reach.App(() => {
       ((contribution) => contribution),
       ((contribution) => {
         const winner = this;
+        ctMap[winner] = myFromMaybe(ctMap[winner]) + contribution;
         C.only(() => {
-          interact.reportContributed(winner, contribution, balance(), lastConsensusTime());
+          interact.reportContribution(winner, contribution, balance(), lastConsensusTime());
         });
         return [true, balance(), false];
       })
@@ -62,14 +65,23 @@ export const main = Reach.App(() => {
 
   if (timeout) {
     C.interact.reportTimeout();
+    var [bal] = [balance()];
+    invariant(balance() == bal && bal == ctMap.sum());
+    while (bal > 0) {
+      commit();
+      C.only(() => {
+        const didContribute = myFromMaybe(ctMap[this]) > 0;
+      });
+      C.publish().when(didContribute).timeout(false);
+      const refund = myFromMaybe(ctMap[this]);
+      transfer(refund).to(this);
+      C.interact.reportTransfer(refund, C);
+      bal = bal - refund;
+      continue;
+    }
+  }
 
-    // Replace the following with repayment code.
-    const contributions = balance();
-    transfer(balance()).to(F);
-    C.interact.reportTransfer(contributions, F);
-
-  } else {
-
+  else {
     const contributions = balance();
     transfer(balance()).to(F);
     C.interact.reportTransfer(contributions, F);

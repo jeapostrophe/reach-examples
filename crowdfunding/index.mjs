@@ -37,9 +37,6 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
       projectName: 'Crowd Funding Project',
       fundraisingGoal: stdlib.parseCurrency(20),
       contractDuration: 10000,
-      reportContributed: (addr, contribution, balance, time) => {
-        console.log(`${yourAddr(addr, acc)} contributed ${fmt(contribution)} ${su} at ${time}. Contract balance is ${fmt(balance)} ${su}.`);
-      },
       reportDone: () => { console.log(`You are done.`); process.exit(0); }
     };
 
@@ -59,12 +56,10 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
       willContribute: true,
       getWillContribute: () => contributorApi.willContribute,
       reportAddress: (addr) => { console.log(`Your address starts with ${abbrAddr(addr)}.`); },
-      reportBalance: (balance) => {console.log(`Contract balance is ${fmt(balance)} ${su}.`);},
-      reportContributed: (addr, contribution, balance, time) => {
+      reportBalance: (balance) => { console.log(`Contract balance is ${fmt(balance)} ${su}.`); },
+      reportContribution: (addr, contribution, balance, time) => {
         console.log(`${yourAddr(addr, acc)} contributed ${fmt(contribution)} ${su} at ${time}. Contract balance is ${fmt(balance)} ${su}.`);
-        if (stdlib.addressEq(addr, acc.networkAccount)) {
-          contributorApi.willContribute = false;
-        }
+        if (stdlib.addressEq(addr, acc.networkAccount)) { contributorApi.willContribute = false; }
       },
       reportExit: () => { console.log('The contract is exiting.'); },
       reportProjectName: (name) => { console.log(`${Who} project name is ${name}.`); },
