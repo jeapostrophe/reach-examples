@@ -6,7 +6,7 @@ The intent of this DApp is to enable a fundraiser to raise a specified amount of
 
 These issues describe the various ways that the current implementation (i.e. candidate) fails to meet the use case described above. 
 
-### Repayment
+### Cannot repay
 
 The candidate does not yet repay the various contributions to the contributors when `contractDuration` is reached. Potential approaches include the following:
 
@@ -38,15 +38,15 @@ The candidate does not yet repay the various contributions to the contributors w
     }
     ```
 
-### Contribute again
+### Cannot contribute again
 
 The candidate does not yet allow a contributor to contribute more than once. Right now it is binary: If you haven't contributed, contribute. If you have contributed, don't. See `contributorApi.reportContributed` in [index.mjs](index.mjs). 
 
-### Start from now
+### Cannot start from now
 
 The candidate does not yet allow a contributor to contribute without reviewing all previous contributions. I question whether this is scalable. The contributor making Contribution #4000, for example, needs to review 3999 contributions before paying a new contribution. See Ethereum > [Contributor 5](#contributor-5) below.
 
-### Run on Algorand
+### Cannot run on Algorand
 
 The `parallelReduce` operator does not run correctly on Algorand. See Test > [Algorand](#algorand) below.
 
