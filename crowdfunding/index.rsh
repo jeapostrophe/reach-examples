@@ -65,7 +65,7 @@ export const main = Reach.App(() => {
 
   if (timeout) {
     C.interact.reportTimeout();
-    var [bal] = [balance()];
+    var [bal] = [sum];
     invariant(balance() == bal && bal == ctMap.sum());
     while (bal > 0) {
       commit();
