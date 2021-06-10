@@ -20,7 +20,7 @@ The candidate does not yet allow a contributor to contribute without reviewing a
 
 ## Run on Algorand
 
-The parallelReduce operator does not run correctly on Algorand. 
+The `parallelReduce` operator does not run correctly on Algorand. 
 
 # Tests
 
