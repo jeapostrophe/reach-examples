@@ -2,7 +2,7 @@
 
 The use case for this DApp is to enable a fundraiser to raise a specified amount of cryptocurrency (e.g. `fundraisingGoal`) from one or more contributors within a period of time (e.g. `contractDuration`). During `contractDuration`, crypto flows from Contributor accounts to the contract account. Contributors may contribute one or more times. When `fundraisingGoal` is achieved, the contract balance flows from the contract account to the fundraiser account, and the contract exits. When `contractDuration` is reached, all portions of the contract balance flow from the contract account back to the various contributor accounts, and the contract exits. `fundraisingGoal` is measured in standard units. `contractDuration` is usually measured in number of blocks.
 
-# Current Limitations
+# Limitations
 
 This section describes the various ways that the current implementation fails to meet the use case described above. 
 
