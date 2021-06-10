@@ -16,7 +16,7 @@ The candidate does not yet allow a contributor to contribute more than once.
 
 ## Start from now
 
-The candidate does not yet allow a contributor to contribute without reviewing all previous contributions.
+The candidate does not yet allow a contributor to contribute without reviewing all previous contributions. I question whether this is scalable. The contributor making Contribution #4000, for example, needs to review 3999 contributions before paying a new contribution. See Ethereum > [Contributor 5](#contributor-5) below.
 
 ## Run on Algorand
 
