@@ -252,4 +252,4 @@ Contract balance is 0 ETH.
 The contract is exiting.
 ```
 
-Eventually, for a timeout, the DApp will remit all contributions to contributors. However, because I don't know how to do this yet, currently the DApp transfers the sub-goal balance to the Fundraiser. 
+Eventually, for a timeout, the DApp will repay all contributions to contributors. However, because I don't know how to do this yet, currently the DApp transfers the sub-goal balance to the Fundraiser. 
