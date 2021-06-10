@@ -2,22 +2,25 @@
 
 const fundraiserApi = {
   projectName: Bytes(64),
-  projectGoal: UInt,
+  fundraisingGoal: UInt,
   contractDuration: UInt,
-  put_done: Fun([], Null)
+  reportContributed: Fun([Address, UInt, UInt, UInt], Null),
+  reportDone: Fun([], Null)
 };
 
 const contributorApi = {
   contribution: UInt,
-  get_contribute: Fun([], Bool),
-  put_address: Fun([Address], Null),
-  put_balance: Fun([UInt], Null),
-  put_contributed: Fun([Address, UInt, UInt, UInt], Null),
-  put_exiting: Fun([], Null),
-  put_timeout: Fun([], Null),
-  put_projectName: Fun([Bytes(64)], Null),
-  put_transferred: Fun([UInt, Address], Null)
+  getWillContribute: Fun([], Bool),
+  reportAddress: Fun([Address], Null),
+  reportBalance: Fun([UInt], Null),
+  reportContributed: Fun([Address, UInt, UInt, UInt], Null),
+  reportExit: Fun([], Null),
+  reportProjectName: Fun([Bytes(64)], Null),
+  reportTimeout: Fun([], Null),
+  reportTransfer: Fun([UInt, Address], Null)
 };
+
+//const myFromMaybe = (m) => fromMaybe(m, (() => 0), ((x) => x));
 
 export const main = Reach.App(() => {
   const F = Participant('Fundraiser', fundraiserApi);
@@ -27,19 +30,20 @@ export const main = Reach.App(() => {
   F.only(() => {
     const p = {
       name: declassify(interact.projectName),
-      goal: declassify(interact.projectGoal),
+      goal: declassify(interact.fundraisingGoal),
       duration: declassify(interact.contractDuration)
     }
   });
 
   F.publish(p);
-  F.interact.put_done();
+  F.interact.reportDone();
 
+  //const ctMap = new Map(UInt);
   const [inLoop, sum, timeout] = parallelReduce([true, 0, false])
     .invariant(balance() == sum)
     .while(inLoop && balance() < p.goal)
     .case(C, (() => {
-      if (declassify(interact.get_contribute())) {
+      if (declassify(interact.getWillContribute())) {
         return { when: true, msg: declassify(interact.contribution) }
       } else {
         return { when: false, msg: 0 }
@@ -48,8 +52,9 @@ export const main = Reach.App(() => {
       ((contribution) => contribution),
       ((contribution) => {
         const winner = this;
+        //ctMap[winner] = myFromMaybe(ctMap[winner]) + contribution;
         C.only(() => {
-          interact.put_contributed(winner, contribution, balance(), lastConsensusTime());
+          interact.reportContributed(winner, contribution, balance(), lastConsensusTime());
         });
         return [true, balance(), false];
       })
@@ -60,21 +65,22 @@ export const main = Reach.App(() => {
     });
 
   if (timeout) {
-    C.interact.put_timeout();
+    C.interact.reportTimeout();
+    //ctMap.forEach((amt, addr) => transfer(amt).to(addr));
 
-    // Need to transfer contributions back to contributors. Don't know how yet. Until then, ...
     const contributions = balance();
     transfer(balance()).to(F);
-    C.interact.put_transferred(contributions, F);
+    C.interact.reportTransfer(contributions, F);
 
   } else {
+
     const contributions = balance();
     transfer(balance()).to(F);
-    C.interact.put_transferred(contributions, F);
+    C.interact.reportTransfer(contributions, F);
   }
 
   commit();
-  C.interact.put_balance(balance());
-  C.interact.put_exiting();
+  C.interact.reportBalance(balance());
+  C.interact.reportExit();
   exit();
 });

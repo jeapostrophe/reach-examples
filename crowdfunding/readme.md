@@ -1,13 +1,26 @@
 # Crowdfunding
 
-This DApp enables a Fundraiser to deploy a smart contract that runs for a period of time (e.g. number of blocks) on a consensus network (e.g. Algorand, Ethereum) with a fundraising goal in cryptocurrency standard units (e.g. ALGO, ETH), and it enables Contributers to transfer coins to the contract until the goal is met or the period of time expires. If the goal is met before the contract expires, the contract transfers the contribution sum to the Fundraiser. Otherwise, the contract remits the contributions to the contributors.
+The intent of this DApp is to enable a fundraiser to raise a specified amount of cryptocurrency (e.g. `fundraisingGoal`) from one or more contributors within a period of time (e.g. `contractDuration`). During `contractDuration`, crypto flows from Contributor accounts to the contract account. Contributors may contribute one or more times. When `fundraisingGoal` is achieved, the contract balance flows from the contract account to the fundraiser account, and the contract exits. When `contractDuration` is reached, all portions of the contract balance flow from the contract account back to the various contributor accounts, and the contract exits. This is called *refundment*. `fundraisingGoal` is measured in standard units. `contractDuration` is usually measured in number of blocks.
 
-# Current Issues
+# Issues
 
-1. `parallelReduce` does not appear to run correctly on Algorand. Contributors 1 and 2 appear to run correctly. Subsequent contributors don't. See the Tests below. I'm currently debugging.
-1. I need to add the ability to remit contributions to contributers if `(timeout == true && balance() < goal)`. Jay has suggested I use linear state to save individual contributions so that remit them individually.
-1. I need to allow contributors to contribute more than once.
-1. Once the command-line version is full-featured and working well, I need to integrate the `index.main.mjs` file into the webapp version of this DApp, and add the webapp source to this repo. 
+These issues describe the various ways that the current implementation (i.e. candidate) fails to meet the use case described above. 
+
+## Refundment
+
+The candidate does not yet refund the various contributions to the contributors when `contractDuration` is reached.
+
+## Contribute again
+
+The candidate does not yet allow a contributor to contribute more than once. 
+
+## Start from now
+
+The candidate does not yet allow a contributor to contribute without reviewing all previous contributions.
+
+## Run on Algorand
+
+The parallelReduce operator does not run correctly on Algorand. 
 
 # Tests
 

@@ -35,12 +35,15 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
   if (isFundraiser) {
     let fundraiserApi = {
       projectName: 'Crowd Funding Project',
-      projectGoal: stdlib.parseCurrency(20),
+      fundraisingGoal: stdlib.parseCurrency(20),
       contractDuration: 10000,
-      put_done: () => { console.log(`You are done.`); process.exit(0); }
+      reportContributed: (addr, contribution, balance, time) => {
+        console.log(`${yourAddr(addr, acc)} contributed ${fmt(contribution)} ${su} at ${time}. Contract balance is ${fmt(balance)} ${su}.`);
+      },
+      reportDone: () => { console.log(`You are done.`); process.exit(0); }
     };
 
-    console.log(`Your project goal is ${fmt(fundraiserApi.projectGoal)} ${su}.`);
+    console.log(`Your project goal is ${fmt(fundraiserApi.fundraisingGoal)} ${su}.`);
     let ctc = acc.deploy(backend);
     const info = await ctc.getInfo();
     console.log(`Your contract deployment time is ${ctcDeployTime(info)}`);
@@ -54,19 +57,19 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
     let contributorApi = {
       contribution: stdlib.parseCurrency(await ask(`What is your contribution in ${su}?`, (x => x))),
       willContribute: true,
-      get_contribute: () => contributorApi.willContribute,
-      put_address: (addr) => { console.log(`Your address starts with ${abbrAddr(addr)}.`); },
-      put_balance: (balance) => {console.log(`Contract balance is ${fmt(balance)} ${su}.`);},
-      put_contributed: (addr, contribution, balance, time) => {
+      getWillContribute: () => contributorApi.willContribute,
+      reportAddress: (addr) => { console.log(`Your address starts with ${abbrAddr(addr)}.`); },
+      reportBalance: (balance) => {console.log(`Contract balance is ${fmt(balance)} ${su}.`);},
+      reportContributed: (addr, contribution, balance, time) => {
         console.log(`${yourAddr(addr, acc)} contributed ${fmt(contribution)} ${su} at ${time}. Contract balance is ${fmt(balance)} ${su}.`);
         if (stdlib.addressEq(addr, acc.networkAccount)) {
           contributorApi.willContribute = false;
         }
       },
-      put_exiting: () => { console.log('The contract is exiting.'); },
-      put_timeout: () => { console.log('Contract timed out.') },
-      put_projectName: (name) => { console.log(`${Who} project name is ${name}.`); },
-      put_transferred: (contributions, addr) => { console.log(`Transferred ${fmt(contributions)} ${su} to ${abbrAddr(addr)}.`); },
+      reportExit: () => { console.log('The contract is exiting.'); },
+      reportProjectName: (name) => { console.log(`${Who} project name is ${name}.`); },
+      reportTimeout: () => { console.log('Contract timed out.') },
+      reportTransfer: (amt, addr) => { console.log(`Transferred ${fmt(amt)} ${su} to ${abbrAddr(addr)}.`); },
     };
 
     const info = await ask(`What is the contract information?`, JSON.parse);
