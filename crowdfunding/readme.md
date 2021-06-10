@@ -2,13 +2,13 @@
 
 The use case for this DApp is to enable a fundraiser to raise a specified amount of cryptocurrency (e.g. `fundraisingGoal`) from one or more contributors within a period of time (e.g. `contractDuration`). During `contractDuration`, crypto flows from Contributor accounts to the contract account. Contributors may contribute one or more times. When `fundraisingGoal` is achieved, the contract balance flows from the contract account to the fundraiser account, and the contract exits. When `contractDuration` is reached, all portions of the contract balance flow from the contract account back to the various contributor accounts, and the contract exits. `fundraisingGoal` is measured in standard units. `contractDuration` is usually measured in number of blocks.
 
-# Current Issues
+# Current Problems
 
-These issues describe the various ways that the current implementation (i.e. candidate) fails to meet the use case described above. 
+This section describes the various ways that the current implementation fails to meet the use case described above. 
 
 ### Does not refund
 
-The candidate does not yet refund the various contributions to the contributors when `contractDuration` is reached. Potential approaches include the following:
+The current implementation does not yet refund the various contributions to the contributors when `contractDuration` is reached. Potential approaches perhaps include the following:
 
 1. When `parallelReduce` times out, loop over payment history, and refund each payment. Does Reach allow this?
 1. Use a `Map` to track contribution totals per contributor address, and, when `parallelReduce` times out, loop over the `Map` and refund. Does Reach allow this? Can this approach handle 20,000 contributions? 
@@ -38,15 +38,15 @@ The candidate does not yet refund the various contributions to the contributors 
     }
     ```
 
-### Does not allow contribute again
+### Does not allow multiple contributions from the same contributor
 
-The candidate does not yet allow a contributor to contribute more than once. Right now it is binary: If you haven't contributed, contribute. If you have contributed, don't. See `contributorApi.reportContributed` in [index.mjs](index.mjs). 
+The current implementation does not yet allow a contributor to contribute more than once. Right now it is binary: If you haven't contributed, contribute. If you have contributed, don't. See `contributorApi.reportContributed` in [index.mjs](index.mjs). 
 
 ### Does not start from now
 
-The candidate does not yet allow a contributor to contribute without reviewing all previous contributions. I question whether this is scalable. The contributor making Contribution #4000, for example, needs to review 3999 contributions before paying a new contribution. See Ethereum > [Contributor 5](#contributor-5) below.
+The current implementation does not yet allow a contributor to contribute without reviewing all previous contributions. I question whether this is scalable. The contributor making Contribution #4000, for example, needs to review 3999 contributions before paying a new contribution. See Ethereum > [Contributor 5](#contributor-5) below.
 
-### Does not run on Algorand
+### Does not run correctly on Algorand
 
 The `parallelReduce` operator does not run correctly on Algorand. See Test > [Algorand](#algorand) below.
 
