@@ -40,7 +40,7 @@ The candidate does not yet repay the various contributions to the contributors w
 
 ### Contribute again
 
-The candidate does not yet allow a contributor to contribute more than once. See `contributorApi.reportContributed` in [index.mjs](index.mjs). 
+The candidate does not yet allow a contributor to contribute more than once. Right now it is binary: If you haven't contributed, contribute. If you have contributed, don't. See `contributorApi.reportContributed` in [index.mjs](index.mjs). 
 
 ### Start from now
 
