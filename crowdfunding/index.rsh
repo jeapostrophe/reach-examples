@@ -39,7 +39,7 @@ export const main = Reach.App(() => {
 
   const ctMap = new Map(UInt);
   const [inLoop, sum, timeout] = parallelReduce([true, 0, false])
-    .invariant(balance() == sum)
+    .invariant(balance() == sum && balance() == ctMap.sum())
     .while(inLoop && balance() < p.goal)
     .case(C, (() => {
       if (declassify(interact.getWillContribute())) {
@@ -55,7 +55,7 @@ export const main = Reach.App(() => {
         C.only(() => {
           interact.reportContribution(winner, contribution, balance(), lastConsensusTime());
         });
-        return [true, balance(), false];
+        return [true, sum + contribution, false];
       })
     )
     .timeout(p.duration, () => {
