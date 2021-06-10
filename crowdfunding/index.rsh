@@ -20,8 +20,6 @@ const contributorApi = {
   reportTransfer: Fun([UInt, Address], Null)
 };
 
-//const myFromMaybe = (m) => fromMaybe(m, (() => 0), ((x) => x));
-
 export const main = Reach.App(() => {
   const F = Participant('Fundraiser', fundraiserApi);
   const C = ParticipantClass('Contributor', contributorApi);
@@ -38,7 +36,6 @@ export const main = Reach.App(() => {
   F.publish(p);
   F.interact.reportDone();
 
-  //const ctMap = new Map(UInt);
   const [inLoop, sum, timeout] = parallelReduce([true, 0, false])
     .invariant(balance() == sum)
     .while(inLoop && balance() < p.goal)
@@ -52,7 +49,6 @@ export const main = Reach.App(() => {
       ((contribution) => contribution),
       ((contribution) => {
         const winner = this;
-        //ctMap[winner] = myFromMaybe(ctMap[winner]) + contribution;
         C.only(() => {
           interact.reportContributed(winner, contribution, balance(), lastConsensusTime());
         });
@@ -66,8 +62,8 @@ export const main = Reach.App(() => {
 
   if (timeout) {
     C.interact.reportTimeout();
-    //ctMap.forEach((amt, addr) => transfer(amt).to(addr));
 
+    // Replace the following with repayment code.
     const contributions = balance();
     transfer(balance()).to(F);
     C.interact.reportTransfer(contributions, F);
