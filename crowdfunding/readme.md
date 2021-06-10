@@ -1,17 +1,17 @@
 # Crowdfunding
 
-The intent of this DApp is to enable a fundraiser to raise a specified amount of cryptocurrency (e.g. `fundraisingGoal`) from one or more contributors within a period of time (e.g. `contractDuration`). During `contractDuration`, crypto flows from Contributor accounts to the contract account. Contributors may contribute one or more times. When `fundraisingGoal` is achieved, the contract balance flows from the contract account to the fundraiser account, and the contract exits. When `contractDuration` is reached, all portions of the contract balance flow from the contract account back to the various contributor accounts, and the contract exits. This is called *repayment*. `fundraisingGoal` is measured in standard units. `contractDuration` is usually measured in number of blocks.
+The intent of this DApp is to enable a fundraiser to raise a specified amount of cryptocurrency (e.g. `fundraisingGoal`) from one or more contributors within a period of time (e.g. `contractDuration`). During `contractDuration`, crypto flows from Contributor accounts to the contract account. Contributors may contribute one or more times. When `fundraisingGoal` is achieved, the contract balance flows from the contract account to the fundraiser account, and the contract exits. When `contractDuration` is reached, all portions of the contract balance flow from the contract account back to the various contributor accounts, and the contract exits. `fundraisingGoal` is measured in standard units. `contractDuration` is usually measured in number of blocks.
 
 # Issues
 
 These issues describe the various ways that the current implementation (i.e. candidate) fails to meet the use case described above. 
 
-### Cannot repay
+### Cannot refund
 
-The candidate does not yet repay the various contributions to the contributors when `contractDuration` is reached. Potential approaches include the following:
+The candidate does not yet refund the various contributions to the contributors when `contractDuration` is reached. Potential approaches include the following:
 
-1. When `parallelReduce` times out, loop over payment history, and repay each payment. Does Reach allow this?
-1. Use a `Map` to track contribution totals per contributor address, and, when `parallelReduce` times out, loop over the `Map` and repay. Does Reach allow this? Can this approach handle 20,000 contributions? 
+1. When `parallelReduce` times out, loop over payment history, and refund each payment. Does Reach allow this?
+1. Use a `Map` to track contribution totals per contributor address, and, when `parallelReduce` times out, loop over the `Map` and refund. Does Reach allow this? Can this approach handle 20,000 contributions? 
 
     ```
     const myFromMaybe = (m) => fromMaybe(m, (() => 0), ((x) => x));
@@ -252,4 +252,4 @@ Contract balance is 0 ETH.
 The contract is exiting.
 ```
 
-Eventually, for a timeout, the DApp will repay all contributions to contributors. However, because I don't know how to do this yet, currently the DApp transfers the sub-goal balance to the Fundraiser. 
+Eventually, for a timeout, the DApp will refund all contributions to contributors. However, because I don't know how to do this yet, currently the DApp transfers the sub-goal balance to the Fundraiser. 
