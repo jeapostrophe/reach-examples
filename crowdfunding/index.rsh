@@ -75,6 +75,7 @@ export const main = Reach.App(() => {
       C.publish().when(didContribute).timeout(false);
       const refund = myFromMaybe(ctMap[this]);
       transfer(refund).to(this);
+      delete ctMap[this];
       C.interact.reportTransfer(refund, C);
       bal = bal - refund;
       continue;
