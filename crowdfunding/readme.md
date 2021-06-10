@@ -40,7 +40,7 @@ The candidate does not yet repay the various contributions to the contributors w
 
 ### Contribute again
 
-The candidate does not yet allow a contributor to contribute more than once. 
+The candidate does not yet allow a contributor to contribute more than once. See `contributorApi.reportContributed` in [index.rsh](index.rsh). 
 
 ### Start from now
 
