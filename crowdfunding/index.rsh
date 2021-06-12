@@ -19,8 +19,6 @@ const contributorApi = {
   reportTransfer: Fun([UInt, Address], Null)
 };
 
-const myFromMaybe = (amt) => fromMaybe(amt, (() => 0), ((x) => x));
-
 export const main = Reach.App(() => {
   const F = Participant('Fundraiser', fundraiserApi);
   const C = ParticipantClass('Contributor', contributorApi);
@@ -37,9 +35,8 @@ export const main = Reach.App(() => {
   F.publish(p);
   F.interact.reportDone();
 
-  const ctMap = new Map(UInt);
   const [inLoop, sum, timeout] = parallelReduce([true, 0, false])
-    .invariant(balance() == sum && balance() == ctMap.sum())
+    .invariant(balance() == sum)
     .while(inLoop && balance() < p.goal)
     .case(C, (() => {
       if (declassify(interact.getWillContribute())) {
@@ -51,7 +48,6 @@ export const main = Reach.App(() => {
       ((contribution) => contribution),
       ((contribution) => {
         const winner = this;
-        ctMap[winner] = myFromMaybe(ctMap[winner]) + contribution;
         C.only(() => {
           interact.reportContribution(winner, contribution, balance(), lastConsensusTime());
         });
@@ -59,34 +55,14 @@ export const main = Reach.App(() => {
       })
     )
     .timeout(p.duration, () => {
+      C.interact.reportTimeout();
       Anybody.publish();
       return [false, sum, true];
     });
 
-  if (timeout) {
-    C.interact.reportTimeout();
-    var [bal] = [sum];
-    invariant(balance() == bal && bal == ctMap.sum());
-    while (bal > 0) {
-      commit();
-      C.only(() => {
-        const didContribute = myFromMaybe(ctMap[this]) > 0;
-      });
-      C.publish().when(didContribute).timeout(false);
-      const refund = myFromMaybe(ctMap[this]);
-      transfer(refund).to(this);
-      delete ctMap[this];
-      C.interact.reportTransfer(refund, C);
-      bal = bal - refund;
-      continue;
-    }
-  }
-
-  else {
-    const contributions = balance();
-    transfer(balance()).to(F);
-    C.interact.reportTransfer(contributions, F);
-  }
+  const contributions = balance();
+  transfer(balance()).to(F);
+  C.interact.reportTransfer(contributions, F);
 
   commit();
   C.interact.reportBalance(balance());
