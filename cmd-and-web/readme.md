@@ -57,17 +57,26 @@ Follow these steps to build and run the webpage version:
 
     *Buyer's new wisdom is "The best things in life are free."*
 
+### How to modify and rerun
+
+After every change you make to the `scripts.js` file, do the following:
+
+1. `Ctrl-C` to stop the http-server.
+1. Run `npx webpack --config webpack.config.cjs`.
+1. Run `npx http-server`.
+1. Clear browser cached images and files. For Chrome, press `Cmd + Shift + Delete`, check *Cached images and files*, and click *Clear data*.
+
 ## Notes
 
 Here are the steps I following to create the webpage environment:
 
-1. `mkdir web` and `cd web`
+1. Create a subdirectory with `mkdir web` and `cd web`.
 
-1. `npm init -y` and add `"type": "module"` to package.json.
+1. Initialize the Node.js project with `npm init -y`, and add `"type": "module"` to package.json.
 
-1. `npm i http-server`
+1. Install a server with `npm i http-server`.
 
-1. `npm i webpack@4.46.0`
+1. Install webpack with `npm i webpack@4.46.0`. You may see these warnings:
 
     ```
     npm WARN deprecated urix@0.1.0: Please see https://github.com/lydell/urix#deprecated
@@ -76,24 +85,19 @@ Here are the steps I following to create the webpage environment:
     npm WARN deprecated chokidar@2.1.8: Chokidar 2 will break on node v14+. Upgrade to chokidar 3 with 15x less dependencies.
     ```
 
-1. `npm i -D webpack-cli@4.7.2`
+1. Install the webpack command-line interface with `npm i -D webpack-cli@4.7.2`.
 
-1. `npm i dotenv`
+1. Install the environment package with `npm i dotenv`. I don't use this yet. 
 
-1. `touch .env`
+1. Create a `.env` file with `touch .env`.
 
-1. `npm i @reach-sh/stdlib`
+1. Install the Reach standard library with `npm i @reach-sh/stdlib`.
 
-1. `npm i net`
+1. Install the net package with `npm i net`.
 
-    ```
-    To address all issues (including breaking changes), run: npm audit fix --force
-    Run `npm audit` for details.
-    ```
+1. Create the JavaScript file for use by your webpage with `touch scripts.js`. The frontend code goes here.
 
-1. `touch scripts.js`
-
-1. `touch webpack.config.cjs`
+1. Create a webpage configuration file with `touch webpack.config.cjs`. Use this content:
 
     ```
     const path = require('path');
@@ -115,12 +119,12 @@ Here are the steps I following to create the webpage environment:
     };
     ```
 
-1. `npx webpack --config webpack.config.cjs`
+1. Run `npx webpack --config webpack.config.cjs` to `create the reach-webpack.cjs` file.
 
-1. `touch styles.css`
+1. Create a CSS file with `touch styles.css`. Styles go here.
 
-1. `touch index.html`
+1. Create an html file with `touch index.html`. Html goes here.
 
-1. `npx http-server`
+1. Run a server which loads the html page with `npx http-server`.
 
-1. [localhost:8080](http://localhost:8080)
+1. Browse to the html page with [localhost:8080](http://localhost:8080).
