@@ -1,6 +1,6 @@
 # Cmd and Web
 
-This example Reach DApp supports two participants, a seller and a buyer. The seller sells a wise sentence for a price. The buyer buys it. The DApp includes two frontends: a JavaScript command-line frontend and a vanilla webpage frontend. Both use the same backend (`index.rsh` to compiles to `build/index.main.mjs`).
+This example Reach DApp supports two participants, a seller and a buyer. The seller sells a wise sentence for a price. The buyer buys it. The DApp includes two frontends: a JavaScript command-line frontend and a vanilla webpage frontend. Both use the same backend (`index.rsh` which compiles to `build/index.main.mjs`).
 
 ## Prerequisites
 
