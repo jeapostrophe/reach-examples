@@ -7,6 +7,11 @@ This example Reach DApp supports two participants, a seller and a buyer. The sel
 1. The Reach script (`reach`) is installed on your computer. You know how to run the script (e.g. `~/reach/reach`).
 1. For the webpage version, your Node.js version is at least `v16.3.0`, and the AlgoSigner extension with at least two TestNet accounts is present in your browser.
 
+## Limitations
+
+1. The command-line version runs on Algorand or Ethereum.
+1. The webpage version only runs on Algorand TestNet.
+
 ## Installation
 
 ```
