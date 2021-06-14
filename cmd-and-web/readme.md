@@ -21,7 +21,17 @@ This example Reach DApp supports two participants, a seller and a buyer. The sel
 
 ## Command-line Version
 
-Run one of the following commands:
+The command-line version looks like this after an Algorand transaction:
+
+```
+% REACH_CONNECTOR_MODE=ALGO reach run
+Seller reports that wisdom is available for purchase at 5 ALGO.
+Buyer reports payment of 5 ALGO to contract.
+Buyer reports transfer of 5 ALGO from contract to Seller.
+Buyer reports new wisdom: "The best things in life are free."
+```
+
+Execute one of the following commands to build and run the example:
 
 ```
 % REACH_CONNECTOR_MODE=ALGO reach run
@@ -30,7 +40,7 @@ Run one of the following commands:
 
 ## Webpage Version
 
-The webpage version looks like this after a transaction:
+The webpage version looks like this after an Algorand transaction:
 
 <img src="cmd-and-web-web.png">
 
