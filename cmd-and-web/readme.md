@@ -10,7 +10,7 @@ This example Reach DApp supports two participants, a seller and a buyer. The sel
 ## Limitations
 
 1. The command-line version runs on Algorand or Ethereum.
-1. The webpage version only runs on Algorand TestNet.
+1. The webpage version runs on Algorand TestNet only.
 
 ## Installation
 
