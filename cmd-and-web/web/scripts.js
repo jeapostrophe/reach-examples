@@ -1,5 +1,5 @@
 import * as stdlib from '@reach-sh/stdlib/ALGO.mjs';
-import * as backend from './build/index.main.mjs';
+import * as backend from '../build/index.main.mjs';
 
 const ledger = 'TestNet';
 const su = stdlib.standardUnit;
@@ -30,6 +30,9 @@ const setBuyerBalanceValue = async () => { document.getElementById('buyer-balanc
 const setBuyerWisdomValue = (value) => { document.getElementById('buyer-wisdom').value = value; }
 const setBuyerPaymentValue = (value) => { document.getElementById('buyer-payment').value = fmt(value); }
 
+const getNetworkSelect = () => document.getElementById('networks');
+const getNetworkValue = () => { let select = getNetworkSelect(); return select.options[select.selectedIndex].text; }
+
 const writeMessage = (msg) => {
   let el = document.getElementById('messages');
   let text = el.value;
@@ -46,26 +49,11 @@ if (AlgoSigner === 'undefined') {
   writeMessage('AlgoSigner is installed.');
 }
 
-AlgoSigner.connect()
-  .then((d) => {
-    writeMessage('Connected to AlgoSigner.');
-  })
-  .catch((e) => {
-    writeMessage(e);
-  })
-
-AlgoSigner.accounts({ ledger: ledger })
-  .then((d) => {
-    writeMessage('Here are the available wallet addresses:');
-    d.forEach(function (element, key) { writeMessage(`${key + 1}. ${element.address}`); });
-
-    setSellerAddressSelectOptions(d);
-    (async () => { await setSellerBalanceValue(); })()
-
-    setBuyerAddressSelectOptions(d);
-    (async () => { await setBuyerBalanceValue(); })()
-  })
-  .catch((e) => { writeMessage(e); })
+if (typeof web3 === 'undefined') {
+  writeMessage('MetaMask is not installed.');
+} else {
+  writeMessage('MetaMask is installed.');
+}
 
 document.addEventListener('click', (event) => {
 
@@ -78,7 +66,7 @@ document.addEventListener('click', (event) => {
       const sellerApi = {
         price: stdlib.parseCurrency(getSellerPriceValue()),
         wisdom: getSellerWisdomValue(),
-        reportReady: () => writeMessage('Seller reports that wisdom is ready for purchase.')
+        reportReady: (price) => writeMessage(`Seller reports that wisdom is available for purchase at ${fmt(price)} ${su}.`)
       };
 
       let address = getSellerAddressValue();
@@ -131,7 +119,41 @@ document.addEventListener('click', (event) => {
 document.addEventListener('change', (event) => {
   if (event.target.id == 'seller-addresses') {
     (async () => { await setSellerBalanceValue(); })()
-  } else if (event.target.id == 'buyer-addresses') {
+  }
+
+  else if (event.target.id == 'buyer-addresses') {
     (async () => { await setBuyerBalanceValue(); })()
+  }
+
+  else if (event.target.id == 'networks') {
+    const network = getNetworkValue();
+
+    if (network === 'Algorand') {
+      (async () => {
+        await AlgoSigner.connect({ ledger: ledger })
+          .then((d) => {
+            writeMessage('Connected to AlgoSigner.');
+
+            (async () => {
+              await AlgoSigner.accounts({ ledger: ledger })
+              .then((d) => {
+                writeMessage('Here are the available wallet addresses:');
+                d.forEach(function (element, key) { writeMessage(`${key + 1}. ${element.address}`); });
+
+                setSellerAddressSelectOptions(d);
+                (async () => { await setSellerBalanceValue(); })()
+            
+                setBuyerAddressSelectOptions(d);
+                (async () => { await setBuyerBalanceValue(); })()
+              })
+              .catch((e) => { writeMessage(e); })
+            })()
+
+          })
+          .catch((e) => {
+            writeMessage(e);
+          })
+      })()
+    }
   }
 })

@@ -6,7 +6,7 @@ module.exports = {
   entry: './scripts.js',
   mode: 'development',
   output: {
-    filename: 'webpack.js',
+    filename: 'reach-webpack.js',
     path: path.resolve(__dirname, './'),
   },
   plugins: [

@@ -4,7 +4,7 @@
 const sellerAPI = {
   price: UInt,
   wisdom: Bytes(128),
-  reportReady: Fun([], Null)
+  reportReady: Fun([UInt], Null)
 };
 
 const buyerAPI = {
@@ -20,13 +20,13 @@ export const main = Reach.App(() => {
 
   S.only(() => { const price = declassify(interact.price); });
   S.publish(price);
-  S.only(() => {interact.reportReady();})
+  S.only(() => {interact.reportReady(price);})
   commit();
-
-  B.only(() => { interact.reportPayment(price); });
+ 
   B.pay(price);
+  B.only(() => { interact.reportPayment(price); });
   commit();
-
+ 
   S.only(() => { const wisdom = declassify(interact.wisdom); });
   S.publish(wisdom);
   transfer(price).to(S);
