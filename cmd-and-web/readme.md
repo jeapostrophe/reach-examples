@@ -22,13 +22,13 @@ Run one of the following commands:
 
 Follow these steps to build and run the webpage version:
 
-1. Change directory: `cd web`.
+1. Change directory to `./web`.
 
 1. Run `node --version` and verify that your Node version is at least `v16.3.0`.
 
 1. Verify that the AlgoSigner extension is present in your browser.
 
-1. Verify that you have at least to Algorand Wallets (in your account).
+1. Verify that the AlgoSigner extension includes at least two TestNet accounts.
 
 1. Run `npm install`.
 
@@ -46,7 +46,7 @@ Follow these steps to build and run the webpage version:
 
     *Seller reports that wisdom is available for purchase at 5 ALGO.*
 
-1. Change to a Buyer wallet that is different from that of the Seller. This is optional.
+1. Change to a Buyer address that is different from that of the Seller. This is optional.
 
 1. Click *Attach and Buy.* Interact with AlgoSigner a few more times until you see the following sentence in Messages:
 
