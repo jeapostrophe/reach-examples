@@ -2,22 +2,27 @@
 
 This example Reach DApp supports two participants, a seller and a buyer. The seller sells a wise sentence for a price. The buyer buys it. The DApp includes two frontends: a JavaScript command-line frontend and a vanilla webpage frontend. Both use the same backend (`index.rsh` to compiles to `build/index.main.mjs`). The example assumes that you already have the Reach script (`reach`) installed somewhere on your computer.
 
+# Installation
+
+```
+% git clone https://github.com/hagenhaus/reach-examples.git
+% cd reach-examples/cmd-and-web
+```
+
 # Command Version
 
-Follow these steps to build and run the command-line version:
+Run one of the following commands:
 
-1. Change directory to the root of this repository (`cmd-and-web`).
-
-1. Run one of the following commands:
-
-    ```
-    % REACH_CONNECTOR_MODE=ALGO reach run
-    % REACH_CONNECTOR_MODE=ETH reach run
-    ```
+```
+% REACH_CONNECTOR_MODE=ALGO reach run
+% REACH_CONNECTOR_MODE=ETH reach run
+```
 
 # Webpage Version
 
 Follow these steps to build and run the webpage version:
+
+1. Change directory: `cd web`.
 
 1. Run `node --version` and verify that your Node version is at least `v16.3.0`.
 
