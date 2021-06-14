@@ -30,6 +30,8 @@ Run one of the following commands:
 
 ## Webpage Version
 
+<img src="cmd-and-web-web.png">
+
 Follow these steps to build and run the webpage version:
 
 1. Change directory to `./web`.
