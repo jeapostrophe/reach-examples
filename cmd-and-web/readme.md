@@ -19,7 +19,7 @@ This example Reach DApp supports two participants, a seller and a buyer. The sel
 % cd reach-examples/cmd-and-web
 ```
 
-## Command Version
+## Command-line Version
 
 Run one of the following commands:
 
