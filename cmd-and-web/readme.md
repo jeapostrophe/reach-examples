@@ -1,6 +1,6 @@
 # Cmd and Web
 
-This Reach example DApp experiments with creating, for an existing Reach DApp, a simple, drop-in, web-based frontend that utilizes html, css, js, and (non-jquery) bootstrap, and connects to (so far) the Algorand TestNet. The example DApp, then, has two frontends, the normal JS-based command-line one, and the new web-based one, and they both use the same backend (`index.rsh` compiled as `build/index.main.mjs`) which, modeled on the Reach [Overview](https://github.com/reach-sh/reach-lang/tree/master/examples/overview) DApp, performs a simple transaction between a seller selling a wise sentence to a buyer.
+This Reach example DApp experiments with creating, for an existing Reach DApp, a simple, drop-in, web-based frontend that utilizes html, css, js, and (non-jquery) bootstrap, and connects to (so far) the Algorand TestNet. The example DApp, then, has two frontends, the normal JS-based command-line one, and the new web-based one, and they both use the same backend (`index.rsh` compiled as `build/index.main.mjs`) which, modeled on the Reach [Overview](https://github.com/reach-sh/reach-lang/tree/master/examples/overview) DApp, performs a simple transaction consisting of a seller selling a wise sentence to a buyer.
 
 ## Prerequisites
 
