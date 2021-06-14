@@ -85,6 +85,13 @@ After every change you make to the `scripts.js` file, do the following:
 1. Run `npx http-server` to start the server.
 1. In Chrome, press `Cmd + Shift + Delete`, check *Cached images and files*, and click *Clear data*.
 
+If you need to kill a process that latches onto Port 8080:
+
+```
+% lsof -i tcp:8080
+% kill -9 PID
+```
+
 ## Notes
 
 Here are the steps I follow to create the webpage environment:
