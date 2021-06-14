@@ -31,7 +31,7 @@ Buyer reports transfer of 5 ALGO from contract to Seller.
 Buyer reports new wisdom: "The best things in life are free."
 ```
 
-Execute one of the following commands to build and run the example:
+To build and run the command-line example, execute one of the following commands:
 
 ```
 % REACH_CONNECTOR_MODE=ALGO reach run
@@ -44,7 +44,7 @@ The webpage version looks like this after an Algorand transaction:
 
 <img src="cmd-and-web-web.png">
 
-Follow these steps to build and run the webpage version:
+To build and run the webpage example, follow these steps:
 
 1. Change directory to `./web`.
 
