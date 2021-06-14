@@ -87,7 +87,7 @@ After every change you make to the `scripts.js` file, do the following:
 
 ## Notes
 
-Here are the steps I following to create the webpage environment:
+Here are the steps I follow to create the webpage environment:
 
 1. Create a subdirectory with `mkdir web` and `cd web`.
 
