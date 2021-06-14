@@ -4,7 +4,7 @@ This example Reach DApp supports two participants, a seller and a buyer. The sel
 
 # Command Version
 
-Run the command-line version like this:
+Follow these steps to build and run the command-line version:
 
 1. Change directory to the root of this repository (`cmd-and-web`).
 
@@ -16,6 +16,38 @@ Run the command-line version like this:
     ```
 
 # Webpage Version
+
+Follow these steps to build and run the webpage version:
+
+1. Run `node --version` and verify that your Node version is at least `v16.3.0`.
+
+1. Verify that the AlgoSigner extension is present in your browser.
+
+1. Verify that you have at least to Algorand Wallets (in your account).
+
+1. Run `npm install`.
+
+1. Run `npx webpack --config webpack.config.cjs`.
+
+1. Run `npx http-server`.
+
+1. Browse to [localhost:8080](http://localhost:8080).
+
+1. Copy your AlgoSigner password into your paste buffer. You will need it several times.
+
+1. In *Choose network*, select *Algorand*, and sign in.
+
+1. Click *Deploy Contract*. Continue to interact with AlgoSigner until you see the following sentence in Messages:
+
+    *Seller reports that wisdom is available for purchase at 5 ALGO.*
+
+1. Change to a Buyer wallet that is different from that of the Seller. This is optional.
+
+1. Click *Attach and Buy.* Interact with AlgoSigner a few more times until you see the following sentence in Messages:
+
+    *Buyer's new wisdom is "The best things in life are free."*
+
+# Notes about creating the web version from scratch
 
 1. `mkdir web` and `cd web`
 
