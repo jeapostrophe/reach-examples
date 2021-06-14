@@ -1,15 +1,20 @@
 # Cmd and Web
 
-This example Reach DApp supports two participants, a seller and a buyer. The seller sells a wise sentence for a price. The buyer buys it. The DApp includes two frontends: a JavaScript command-line frontend and a vanilla webpage frontend. Both use the same backend (`index.rsh` to compiles to `build/index.main.mjs`). The example assumes that you already have the Reach script (`reach`) installed somewhere on your computer.
+This example Reach DApp supports two participants, a seller and a buyer. The seller sells a wise sentence for a price. The buyer buys it. The DApp includes two frontends: a JavaScript command-line frontend and a vanilla webpage frontend. Both use the same backend (`index.rsh` to compiles to `build/index.main.mjs`).
 
-# Installation
+## Prerequisites
+
+1. The Reach script (`reach`) is installed on your computer. You know how to run the script (e.g. `~/reach/reach`).
+1. For the webpage version, your Node.js version is at least `v16.3.0`, the AlgoSigner extension with at least two TestNet accounts is present in your browser.
+
+## Installation
 
 ```
 % git clone https://github.com/hagenhaus/reach-examples.git
 % cd reach-examples/cmd-and-web
 ```
 
-# Command Version
+## Command Version
 
 Run one of the following commands:
 
@@ -18,7 +23,7 @@ Run one of the following commands:
 % REACH_CONNECTOR_MODE=ETH reach run
 ```
 
-# Webpage Version
+## Webpage Version
 
 Follow these steps to build and run the webpage version:
 
@@ -52,7 +57,9 @@ Follow these steps to build and run the webpage version:
 
     *Buyer's new wisdom is "The best things in life are free."*
 
-# Notes about creating the web version from scratch
+## Notes
+
+Here are the steps I following to create the webpage environment:
 
 1. `mkdir web` and `cd web`
 
