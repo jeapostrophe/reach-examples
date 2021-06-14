@@ -64,7 +64,7 @@ After every change you make to the `scripts.js` file, do the following:
 1. `Ctrl-C` to stop the http-server.
 1. Run `npx webpack --config webpack.config.cjs` to build a new *reach-webpack.js* file.
 1. Run `npx http-server` to start the server.
-1. Clear browser cached images and files. For Chrome, press `Cmd + Shift + Delete`, check *Cached images and files*, and click *Clear data*.
+1. In Chrome, press `Cmd + Shift + Delete`, check *Cached images and files*, and click *Clear data*.
 
 ## Notes
 
