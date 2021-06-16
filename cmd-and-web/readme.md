@@ -5,7 +5,7 @@ This Reach example DApp experiments with creating, for an existing Reach DApp, a
 ## Prerequisites
 
 1. The Reach script (`reach`) is installed on your computer. You know how to run the script (e.g. `~/reach/reach`).
-1. For the webpage version, your Node.js version is at least `v16.3.0`, and the AlgoSigner extension with at least two TestNet accounts is present in your browser.
+1. For the webpage version, your Node.js version is at least `v16.3.0`, and the AlgoSigner extension with at least two TestNet accounts is present in your browser. Mac users, see [How To Install NVM on macOS with Homebrew](https://tecadmin.net/install-nvm-macos-with-homebrew/).
 
 ## Limitations
 
