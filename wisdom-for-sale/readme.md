@@ -1,6 +1,6 @@
 # Wisdom for Sale
 
-This Reach example dapp includes both a web-based frontend and a command-line frontend for a simple backend (`build/index.main.mjs` compiled from `index.rsh`) which, modeled on the Reach [Overview](https://github.com/reach-sh/reach-lang/tree/master/examples/overview) dapp, enables a Seller to sell a wise phrase to a Buyer for a price.
+This Reach example dapp includes both a web-based frontend and a command-line frontend for a simple backend (`build/index.main.mjs` compiled from `index.rsh`) which, modeled on the Reach [Overview](https://github.com/reach-sh/reach-lang/tree/master/examples/overview) dapp, enables a Seller to sell a wise phrase to a Buyer for a price. The web frontend uses html, css, modular js, and bootstrap v5.x (no jquery).
 
 ## Prerequisites
 
