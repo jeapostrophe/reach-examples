@@ -28,6 +28,8 @@ You need to have the reach script installed. See [Install and Initialize](https:
 
 ## Run the web-based version
 
+1. Verify that the AlgoSigner extension is present in your Chrome browser.
+1. Verify that the AlgoSigner extension includes at least two TestNet accounts.
 1. Run `npm i http-server`.
 1. Run `npx http-server`.
 1. Browse to [http://127.0.0.1:8080](http://127.0.0.1:8080).
