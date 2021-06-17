@@ -49,7 +49,7 @@ Follow these steps to run the web-based version:
 
 ## Notes
 
-Follow the steps below to add a web-based frontend to an existing Reach project (e.g. `index.mjs` and `index.rsh`): 
+Follow the steps below to add a web-based frontend to your existing Reach project (e.g. `index.mjs` and `index.rsh`): 
 
 1. In a terminal, change to your Reach project directory.
 1. If you do not have a package.json file in your directory, run `reach scaffold`.
