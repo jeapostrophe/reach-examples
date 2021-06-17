@@ -14,7 +14,7 @@ import * as backend from './build/index.main.mjs';
         console.log(`${who} starts auction for NFT #${id}`);
         return id;
       },
-      reportDone: () => { console.log(`${who} is finished acting as creator.`); /*process.exit(0);*/ }
+      reportDone: () => { console.log(`${who} is finished acting as creator.`);}
     }
   }
 
