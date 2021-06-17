@@ -4,64 +4,12 @@ The use case for this DApp is to enable a fundraiser to raise a specified amount
 
 # Limitations
 
-This section describes the various ways that the current implementation fails to meet the use case described above. 
-
-### Does not refund
-
-The current implementation does not yet refund the various contributions to the contributors when `contractDuration` is reached. Potential approaches perhaps include the following:
-
-1. When `parallelReduce` times out, loop over payment history, and refund each payment. Does Reach allow this?
-1. Use a `Map` to track contribution totals per contributor address, and, when `parallelReduce` times out, loop over the `Map` and refund. Does Reach allow this? Can this approach handle 20,000 contributions? 
-
-    ```
-    const myFromMaybe = (m) => fromMaybe(m, (() => 0), ((x) => x));
-    const ctMap = new Map(UInt);
-    const [...] = parallelReduce([...])
-    .invariant(...)
-    .while(...)
-    .case(C, (() => {...}),
-      ((contribution) => contribution),
-      ((contribution) => {
-        const winner = this;
-        ctMap[winner] = myFromMaybe(ctMap[winner]) + contribution;
-        ...
-        return [...];
-      })
-    )
-    .timeout(p.duration, () => {
-      Anybody.publish();
-      return [...];
-    });
-
-    if (timeout) {
-      ctMap.forEach((amt, addr) => transfer(amt).to(addr)); // I made this up.
-    }
-    ```
-
-### Does not allow multiple contributions from the same contributor
-
-The current implementation does not yet allow a contributor to contribute more than once. Right now it is binary: If you haven't contributed, contribute. If you have contributed, don't. See `contributorApi.reportContributed` in [index.mjs](index.mjs). 
-
-### Does not start from now
-
-The current implementation does not yet allow a contributor to contribute without reviewing all previous contributions. I question whether this is scalable. The contributor making Contribution #4000, for example, needs to review 3999 contributions before paying a new contribution. See Ethereum > [Contributor 5](#contributor-5) below.
-
-### Does not run correctly on Algorand
-
-The `parallelReduce` operator does not run correctly on Algorand. See Test > [Algorand](#algorand) below.
+1. Does not refund yet.
+1. Does not allow multiple contributions from the same contributor yet. 
 
 # Tests
 
-You can test this DApp using several terminals, running each in order:
-
-1. `make run-fundraiser`
-1. `make run-contributor`
-1. `make run-contributor`
-1. `make run-contributor`
-1. `make run-contributor`
-1. `make run-contributor`
-
-The `*` next to an abbreviated address (e.g. `0x433*`) means the address belongs to the Contributor running the DApp.
+You can test this DApp using multiple terminals. First, run `make run-contributor` in a few terminals, specify the contribution for each contributor, and leave the app waiting for contract information. Next, run `make run-fundraiser` to completion in another terminal. Then, copy & paste the contraction information to the contributor terminals, click enter in each, and let them run to completion. The `*` next to an abbreviated address (e.g. `0x433*`) means the address belongs to the Contributor running in that particular terminal.
 
 ## Ethereum
 
@@ -159,8 +107,8 @@ The contract is exiting.
 Your role is Fundraiser.
 Your network type is devnet.
 Your account balance is 1000 ALGO.
-Your project goal is 20000000 ALGO.
-Your contract deployment time is 8393
+Your project goal is 20 ALGO.
+Your contract deployment time is 15
 Your contract info is {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
 You are done.
 ```
@@ -172,9 +120,9 @@ You are done.
 Your role is Contributor.
 Your network type is devnet.
 Your account balance is 1000 ALGO.
-What is your contribution in ALGO? 1
+What is your contribution in ALGO? 5
 What is the contract information? {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
-0x4cc* contributed 1 ALGO at 8396. Contract balance is 1 ALGO.
+0x08e* contributed 5 ALGO at 18. Contract balance is 5 ALGO.
 ```
 
 ### Contributor 2
@@ -184,15 +132,13 @@ What is the contract information? {"ApplicationID":46,"creationRound":8393,"Depl
 Your role is Contributor.
 Your network type is devnet.
 Your account balance is 1000 ALGO.
-What is your contribution in ALGO? 3
+What is your contribution in ALGO? 5
 What is the contract information? {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
-0x4cc  contributed 1 ALGO at 8396. Contract balance is 1 ALGO.
-0x5e3* contributed 3 ALGO at 8407. Contract balance is 4 ALGO.
+0x08e  contributed 5 ALGO at 18. Contract balance is 5 ALGO.
+0x832* contributed 3 ALGO at 21. Contract balance is 8 ALGO.
 ```
 
 ### Contributor 3
-
-This appears to be wrong. Compare to Ethereum Contributor 3.
 
 ```
 % make run-contributor
@@ -201,35 +147,27 @@ Your network type is devnet.
 Your account balance is 1000 ALGO.
 What is your contribution in ALGO? 5
 What is the contract information? {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
-0x5e3  contributed 3 ALGO at 8396. Contract balance is 3 ALGO.
+0x08e  contributed 5 ALGO at 18. Contract balance is 5 ALGO.
+0x832  contributed 3 ALGO at 21. Contract balance is 8 ALGO.
+0x031* contributed 4 ALGO at 24. Contract balance is 12 ALGO.
 ```
 
 ### Contributor 4
 
-This appears to be wrong. Compare to Ethereum Contributor 4.
-
 ```
 % make run-contributor
 Your role is Contributor.
 Your network type is devnet.
 Your account balance is 1000 ALGO.
-What is your contribution in ALGO? 7
+What is your contribution in ALGO? 5
 What is the contract information? {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
-0x5e3  contributed 3 ALGO at 8396. Contract balance is 3 ALGO.
-```
-
-### Contributor 5
-
-This appears to be wrong. Compare to Ethereum Contributor 5.
-
-```
-% make run-contributor
-Your role is Contributor.
-Your network type is devnet.
-Your account balance is 1000 ALGO.
-What is your contribution in ALGO? 9
-What is the contract information? {"ApplicationID":46,"creationRound":8393,"Deployer":"ABC"}
-0x5e3  contributed 3 ALGO at 8396. Contract balance is 3 ALGO.
+0x08e  contributed 5 ALGO at 18. Contract balance is 5 ALGO.
+0x832  contributed 3 ALGO at 21. Contract balance is 8 ALGO.
+0x031  contributed 4 ALGO at 24. Contract balance is 12 ALGO.
+0xb57* contributed 20 ALGO at 27. Contract balance is 32 ALGO.
+Transferred 32 ALGO to 0x158.
+Contract balance is 0 ALGO.
+The contract is exiting.
 ```
 
 # Timeouts
@@ -253,103 +191,3 @@ The contract is exiting.
 ```
 
 Eventually, for a timeout, the DApp will refund all contributions to contributors. However, because I don't know how to do this yet, currently the DApp transfers the sub-goal balance to the Fundraiser. 
-
-# index.rsh (Jay is debugging)
-
-```
-'reach 0.1';
-
-const fundraiserApi = {
-  projectName: Bytes(64),
-  fundraisingGoal: UInt,
-  contractDuration: UInt,
-  reportDone: Fun([], Null)
-};
-
-const contributorApi = {
-  contribution: UInt,
-  getWillContribute: Fun([], Bool),
-  reportAddress: Fun([Address], Null),
-  reportBalance: Fun([UInt], Null),
-  reportContribution: Fun([Address, UInt, UInt, UInt], Null),
-  reportExit: Fun([], Null),
-  reportProjectName: Fun([Bytes(64)], Null),
-  reportTimeout: Fun([], Null),
-  reportTransfer: Fun([UInt, Address], Null)
-};
-
-const myFromMaybe = (amt) => fromMaybe(amt, (() => 0), ((x) => x));
-
-export const main = Reach.App(() => {
-  const F = Participant('Fundraiser', fundraiserApi);
-  const C = ParticipantClass('Contributor', contributorApi);
-  deploy();
-
-  F.only(() => {
-    const p = {
-      name: declassify(interact.projectName),
-      goal: declassify(interact.fundraisingGoal),
-      duration: declassify(interact.contractDuration)
-    }
-  });
-
-  F.publish(p);
-  F.interact.reportDone();
-
-  const ctMap = new Map(UInt);
-  const [inLoop, sum, timeout] = parallelReduce([true, 0, false])
-    .invariant(balance() == sum && balance() == ctMap.sum())
-    .while(inLoop && balance() < p.goal)
-    .case(C, (() => {
-      if (declassify(interact.getWillContribute())) {
-        return { when: true, msg: declassify(interact.contribution) }
-      } else {
-        return { when: false, msg: 0 }
-      }
-    }),
-      ((contribution) => contribution),
-      ((contribution) => {
-        const winner = this;
-        ctMap[winner] = myFromMaybe(ctMap[winner]) + contribution;
-        C.only(() => {
-          interact.reportContribution(winner, contribution, balance(), lastConsensusTime());
-        });
-        return [true, sum + contribution, false];
-      })
-    )
-    .timeout(p.duration, () => {
-      Anybody.publish();
-      return [false, sum, true];
-    });
-
-  if (timeout) {
-    C.interact.reportTimeout();
-    var [bal] = [sum];
-    invariant(balance() == bal && bal == ctMap.sum());
-    while (bal > 0) {
-      commit();
-      C.only(() => {
-        const didContribute = myFromMaybe(ctMap[this]) > 0;
-      });
-      C.publish().when(didContribute).timeout(false);
-      const refund = myFromMaybe(ctMap[this]);
-      transfer(refund).to(this);
-      delete ctMap[this];
-      C.interact.reportTransfer(refund, C);
-      bal = bal - refund;
-      continue;
-    }
-  }
-
-  else {
-    const contributions = balance();
-    transfer(balance()).to(F);
-    C.interact.reportTransfer(contributions, F);
-  }
-
-  commit();
-  C.interact.reportBalance(balance());
-  C.interact.reportExit();
-  exit();
-});
-```
