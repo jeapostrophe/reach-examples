@@ -9,7 +9,7 @@ You need to have the reach script installed. See [Install and Initialize](https:
 ## Limitations
 
 1. The command-line version runs on Algorand or Ethereum.
-1. The webpage version runs on Algorand TestNet only.
+1. The webpage version runs on Algorand TestNet only unless you modify it yourself.
 
 ## Installation
 
