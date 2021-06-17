@@ -32,6 +32,8 @@ The webpage version looks like this after an Algorand transaction:
 
 <img src="wisdom-for-sale.png">
 
+Follow these steps to run the web-based version:
+
 1. Verify that the AlgoSigner extension is present in your Chrome browser.
 1. Verify that the AlgoSigner extension includes at least two TestNet accounts.
 1. Run `npm i http-server`.
