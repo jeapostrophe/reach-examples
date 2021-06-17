@@ -1,0 +1,29 @@
+body {
+    padding: 24px;
+}
+
+select.form-select,
+input.form-control,
+textarea.form-control {
+    font-size: 82% !important;
+}
+
+label.form-label {
+    color: #ff8095;
+}
+
+#messages {
+    font-family: 'Courier New', monospace;
+    background: white;
+}
+
+a,
+a:hover {
+    color: black;
+}
+
+th,
+td {
+    padding: 6px;
+    font-size: 82%;
+}
