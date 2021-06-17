@@ -46,3 +46,13 @@ Follow these steps to run the web-based version:
 1. Change to a Buyer address that is different from that of the Seller. This is optional.
 1. Click *Attach and Buy.* Interact with AlgoSigner a few more times until you see the following sentence in Messages:
     *Buyer's new wisdom is "The best things in life are free."*
+
+## Notes
+
+Follow the steps below to add a web-based frontend to an existing Reach project (e.g. `index.mjs` and `index.rsh`): 
+
+1. In a terminal, change to your Reach project directory.
+1. If you do not have a package.json file in your directory, run `reach scaffold`.
+1. Copy `index.html`, `index.js`, `style.css`, and `favicon.png` from the `wisdom-for-sale` directory to yours. 
+1. Pare down these files to only what you need to get started. 
+1. Go to the Run the web-based version section above.
