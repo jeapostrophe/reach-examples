@@ -205,7 +205,10 @@ Follow these steps to run the web-based version:
 1. Copy your AlgoSigner password into your paste buffer. You will need it several times.
 1. In *Choose network*, select *Algorand*, and sign in.
 1. Click *Deploy*. Continue to interact with AlgoSigner until you see the following sentence in Messages:
+
     *You are done.*
+
 1. Change to a Contributer address that is different from that of the Fundraiser.
 1. Click *Contribute.* Interact with AlgoSigner a few more times until you see a sentence similar to the following (with an asterisk appended to the short address) in Messages:
+
     *0x418* contributed 2 ALGO at 14855896. Contract balance is 2 ALGO.*
