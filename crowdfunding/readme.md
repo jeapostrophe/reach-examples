@@ -194,3 +194,18 @@ The contract is exiting.
 The webpage version looks like this after an Algorand transaction:
 
 <img src="crowdfunding.png">
+
+Follow these steps to run the web-based version:
+
+1. Verify that the AlgoSigner extension is present in your Chrome browser.
+1. Verify that the AlgoSigner extension includes at least two TestNet accounts.
+1. Run `npm i http-server`.
+1. Run `npx http-server`.
+1. Browse to [http://127.0.0.1:8080](http://127.0.0.1:8080).
+1. Copy your AlgoSigner password into your paste buffer. You will need it several times.
+1. In *Choose network*, select *Algorand*, and sign in.
+1. Click *Deploy*. Continue to interact with AlgoSigner until you see the following sentence in Messages:
+    *You are done.*
+1. Change to a Contributer address that is different from that of the Fundraiser.
+1. Click *Contribute.* Interact with AlgoSigner a few more times until you see a sentence similar to the following (with an asterisk appended to the short address) in Messages:
+    *0x418* contributed 2 ALGO at 14855896. Contract balance is 2 ALGO.*
