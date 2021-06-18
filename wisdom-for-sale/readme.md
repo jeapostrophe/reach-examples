@@ -53,6 +53,6 @@ Follow the steps below to add a web-based frontend to your existing Reach projec
 
 1. In a terminal, change to your Reach project directory.
 1. If you do not have a package.json file in your directory, run `reach scaffold`.
-1. Copy `index.html`, `index.js`, `style.css`, and `favicon.png` from the `wisdom-for-sale` directory to yours. 
+1. Copy `index.html`, `index.js`, `styles.css`, and `favicon.png` from the `wisdom-for-sale` directory to yours. 
 1. Pare down these files to only what you need to get started. 
 1. Go to the Run the web-based version section above.
