@@ -48,10 +48,13 @@ Follow these steps to run the web-based version:
 1. Copy your AlgoSigner password into your paste buffer. You will need it several times.
 1. In *Choose network*, select *Algorand*, and sign in.
 1. Click *Deploy Contract*. Continue to interact with AlgoSigner until you see the following sentence in Messages:
-    *Seller reports that wisdom is available for purchase at 5 ALGO.*
+
+    Seller reports that wisdom is available for purchase at 5 ALGO.
+
 1. Change to a Buyer address that is different from that of the Seller. This is optional.
 1. Click *Attach and Buy.* Interact with AlgoSigner a few more times until you see the following sentence in Messages:
-    *Buyer's new wisdom is "The best things in life are free."*
+
+    Buyer's new wisdom is "The best things in life are free."
 
 If you need to kill a process that latches onto Port 8080:
 
