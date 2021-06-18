@@ -2,6 +2,8 @@
   "name": "@reach-sh/crowdfunding",
   "type": "module",
   "dependencies": {
+    "cors": "^2.8.5",
+    "http-server": "^0.12.3"
   },
   "author": "reach.sh",
   "license": "Apache-2.0",

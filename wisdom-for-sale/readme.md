@@ -18,6 +18,12 @@ You need to have the reach script installed. See [Install and Initialize](https:
 % cd reach-examples/wisdom-for-sale
 ```
 
+## Build
+
+```
+% make build
+```
+
 ## Run the command-line version
 
 ```

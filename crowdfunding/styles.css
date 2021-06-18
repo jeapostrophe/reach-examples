@@ -1,0 +1,14 @@
+body { padding: 24px; }
+
+select.form-select,
+input.form-control,
+textarea.form-control {
+  font-size: 82% !important;
+}
+
+label.form-label { color: #ff8095; }
+a.nav-link, a.nav-link:hover { color: black; }
+th, td { padding: 6px; font-size: 82%; }
+.tab-content { padding:6px; }
+#messages { font-family: 'Courier New', monospace; background: white; height: 600px;}
+#fr-contract { height:100px; }
