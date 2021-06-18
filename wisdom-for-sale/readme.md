@@ -47,6 +47,13 @@ Follow these steps to run the web-based version:
 1. Click *Attach and Buy.* Interact with AlgoSigner a few more times until you see the following sentence in Messages:
     *Buyer's new wisdom is "The best things in life are free."*
 
+If you need to kill a process that latches onto Port 8080:
+
+```
+% lsof -i tcp:8080
+% kill -9 PID
+```
+
 ## Notes
 
 Follow the steps below to add a web-based frontend to your existing Reach project (e.g. `index.mjs` and `index.rsh`): 
