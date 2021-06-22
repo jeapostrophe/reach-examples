@@ -27,8 +27,9 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
     const mnemonic = await ask(`What is your account mnemonic?`, (x => x));
     acc = await stdlib.newAccountFromMnemonic(mnemonic);
   }
+  const me = abbrAddr(acc.getAddress());
 
-  console.log(`Your account balance is ${await getStandardUnitBalance(acc)} ${su}.`);
+  console.log(`${me}: Your account balance is ${await getStandardUnitBalance(acc)} ${su}.`);
 
   // Fundraiser
 
@@ -40,34 +41,46 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
       reportDone: () => { console.log(`You are done.`); process.exit(0); }
     };
 
-    console.log(`Your project goal is ${fmt(fundraiserApi.fundraisingGoal)} ${su}.`);
+    console.log(`${me}: Your project goal is ${fmt(fundraiserApi.fundraisingGoal)} ${su}.`);
     let ctc = acc.deploy(backend);
     const info = await ctc.getInfo();
-    console.log(`Your contract deployment time is ${ctcDeployTime(info)}`);
-    console.log(`Your contract info is ${JSON.stringify(info)}`);
+    console.log(`${me}: Your contract deployment time is ${ctcDeployTime(info)}`);
+    console.log(`${me}: Your contract info is ${JSON.stringify(info)}`);
     await backend.Fundraiser(ctc, fundraiserApi);
   }
 
   // Contributor
 
   else {
+    let amount = process.env['amount'];
+    if ( amount ) {
+      console.log(`${me}: Contribution is ${amount}.`);
+    } else {
+      amount = await ask(`What is your contribution in ${su}?`, (x => x));
+    }
     let contributorApi = {
-      contribution: stdlib.parseCurrency(await ask(`What is your contribution in ${su}?`, (x => x))),
+      contribution: stdlib.parseCurrency(amount),
       willContribute: true,
       getWillContribute: () => contributorApi.willContribute,
-      reportAddress: (addr) => { console.log(`Your address starts with ${abbrAddr(addr)}.`); },
-      reportBalance: (balance) => { console.log(`Contract balance is ${fmt(balance)} ${su}.`); },
+      reportAddress: (addr) => { console.log(`${me}: Your address starts with ${abbrAddr(addr)}.`); },
+      reportBalance: (balance) => { console.log(`${me}: Contract balance is ${fmt(balance)} ${su}.`); },
       reportContribution: (addr, contribution, balance, time) => {
-        console.log(`${yourAddr(addr, acc)} contributed ${fmt(contribution)} ${su} at ${time}. Contract balance is ${fmt(balance)} ${su}.`);
+        console.log(`${me}: ${yourAddr(addr, acc)} contributed ${fmt(contribution)} ${su} at ${time}. Contract balance is ${fmt(balance)} ${su}.`);
         if (stdlib.addressEq(addr, acc.networkAccount)) { contributorApi.willContribute = false; }
       },
-      reportExit: () => { console.log('The contract is exiting.'); },
-      reportProjectName: (name) => { console.log(`${Who} project name is ${name}.`); },
-      reportTimeout: () => { console.log('Contract timed out.') },
-      reportTransfer: (amt, addr) => { console.log(`Transferred ${fmt(amt)} ${su} to ${abbrAddr(addr)}.`); },
+      reportExit: () => { console.log(`${me}: The contract is exiting.`); },
+      reportProjectName: (name) => { console.log(`${me}: ${Who} project name is ${name}.`); },
+      reportTimeout: () => { console.log(`${me}: Contract timed out.`) },
+      reportTransfer: (amt, addr) => { console.log(`${me}: Transferred ${fmt(amt)} ${su} to ${abbrAddr(addr)}.`); },
     };
 
-    const info = await ask(`What is the contract information?`, JSON.parse);
+    let info = process.env['contract'];
+    if ( info ) {
+      console.log(`${me}: Getting contract information from '${info}'`);
+      info = JSON.parse(info);
+    } else {
+      info = await ask(`What is the contract information?`, JSON.parse);
+    }
     let ctc = acc.attach(backend, info);
     await backend.Contributor(ctc, contributorApi);
   }

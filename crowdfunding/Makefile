@@ -34,3 +34,7 @@ run-fundraiser:
 .PHONY: run-contributor
 run-contributor:
 	docker-compose run -e role=Contributor -e type=devnet --rm contributor 
+
+.PHONY: run-contributor-auto
+run-contributor-auto:
+	docker-compose run -e role=Contributor -e type=devnet -e contract='${contract}' -e amount='${amount}' --rm contributor 
